@@ -17,10 +17,14 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:jsx-a11y/recommended',
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
 
     // Prettier plugin and recommended rules
     'prettier',
     'plugin:prettier/recommended',
+    
   ],
 
   plugins: ['@typescript-eslint', 'import', 'css-modules', 'prettier', 'react-hooks', 'eslint-plugin-import-helpers', 'cypress'],
@@ -88,7 +92,8 @@ module.exports = {
       'specialLink': ['hrefLeft', 'hrefRight'],
       'aspects': ['invalidHref', 'preferButton']
     }],
-
+    "import/no-unresolved": "off",
+    // Resolve path to module
     'react/no-unescaped-entities': 'off',
     'react/static-property-placement': 'off',
 
@@ -176,3 +181,4 @@ module.exports = {
     },
   },
 };
+

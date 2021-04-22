@@ -145,7 +145,18 @@ module.exports = withPlugins( [withTM, withSourceMaps, withPWA], {
       );
     });
 
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"]
+    });
+
     return config
+  },
+
+  "rules": {
+    // note you must disable the base rule as it can report incorrect errors
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"]
   },
 
   typescript: {

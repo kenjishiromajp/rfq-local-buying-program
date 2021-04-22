@@ -5,6 +5,7 @@ import { FC } from 'react';
 
 import { motion } from 'framer-motion';
 
+import Navbar from 'components/Navbar/navbar';
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
 
 import MainLayout from '../layouts/MainLayout';
@@ -62,6 +63,7 @@ const HomePage: FC<IProps> = ({ statusCode = null, host = '' }) => {
           exit={{ opacity: 0, y: 40 }}
           transition={{ ease: 'easeInOut', duration: 0.3 }}
         >
+          <Navbar />
           <SectionWithContainer>
             <h1>Home page</h1>
           </SectionWithContainer>

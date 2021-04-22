@@ -2,7 +2,7 @@
 import * as next from 'next';
 
 import admin from 'firebase-admin';
-import moment from 'moment';
+// import moment from 'moment';
 
 declare module 'next' {
   export interface NextApiRequest {
