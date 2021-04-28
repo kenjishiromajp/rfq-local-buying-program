@@ -1,10 +1,12 @@
 @use 'sass:color';
+@import '~bootstrap/scss/variables';
 
 $black: #2e2e2e;
-$primary: #0060a9;
+$primary: #ff9900;
 $secondary: #ffd520;
 $danger: #ed1c2e;
-$theme-colors: (
+
+$theme-colors: map-merge($theme-colors, (
   'gos-scheme': #134d56,
   'danger': $danger,
   'secondary': $secondary,
@@ -16,10 +18,10 @@ $theme-colors: (
   'light-grey': #f2f5f9,
   'white': #fff,
   'black': #2e2e2e,
-);
+));
 $link-color: $primary;
 $link-hover-color: darken($link-color, 15%) !default;
-$btn-border-width: 3px;
+$btn-border-width: 2px;
 $btn-font-weight: bold;
 $btn-padding-y: 0.6rem;
 $btn-padding-x: 1.7rem;

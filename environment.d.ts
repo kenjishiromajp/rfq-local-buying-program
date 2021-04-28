@@ -4,15 +4,7 @@ declare global {
       PORT?: string;
       API_URL: string;
       NODE_ENV: 'development' | 'production';
-      STACK9_API_URL: string;
-      STACK9_API_TOKEN: string;
-      QUICKSTREAM_PUBLISHABLE_KEY: string;
-      NEXT_PUBLIC_WESTPAC_URL: string;
-      NEXT_PUBLIC_GOOGLE_RECAPTCHA_URL: string;
-      NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITEKEY: string;
-      NEXT_PUBLIC_API_URL: string;
-      FIREBASE_SERVICE_ACCOUNT_ADMIN_SDK: string;
-      NEXT_PUBLIC_FIREBASE_SERVICE_WEB_APP_JS_SDK: string;
+      DATABASE_CONNECTION_STRING: string;
     }
   }
 
