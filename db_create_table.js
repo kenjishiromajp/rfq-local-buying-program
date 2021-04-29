@@ -2,7 +2,7 @@ require('dotenv').config();
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  database: process.env.DB_DATABASE,
+  database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   host: process.env.DB_HOST,
@@ -11,20 +11,20 @@ const pool = new Pool({
 pool.connect();
 
 const createTableQuery = [
-  // `CREATE TABLE IF NOT EXISTS user (
-  //   ID serial NOT NULL,
-  //   Name VARCHAR(155) NOT NULL,
-  //   Email VARCHAR(155) NOT NULL,
-  //   Password VARCHAR(155) NOT NULL,
-  //   Supplier_ID INT,
-  //   Buyer_ID INT,
-  //   Created_At DATE NOT NULL DEFAULT CURRENT_DATE,
-  //   Deleted_At DATE NULL,
-  //   Updated_At DATE NULL,
-  //   Token VARCHAR(155),
-  //   Refresh_Token VARCHAR(155),
-  //   PRIMARY KEY(id)
-  // )`,
+  `CREATE TABLE IF NOT EXISTS public.user (
+    ID serial NOT NULL,
+    Name VARCHAR(155) NOT NULL UNIQUE,
+    Email VARCHAR(155) NOT NULL UNIQUE,
+    Password VARCHAR(155) NOT NULL UNIQUE,
+    Supplier_ID INT,
+    Buyer_ID INT,
+    Created_At DATE NOT NULL DEFAULT CURRENT_DATE,
+    Deleted_At DATE NULL,
+    Updated_At DATE NULL,
+    Token VARCHAR(155),
+    Refresh_Token VARCHAR(155),
+    PRIMARY KEY(id)
+  );`,
   `CREATE TABLE IF NOT EXISTS buyer (
     ID serial,
     Name VARCHAR(155),
@@ -99,11 +99,28 @@ const createTableQuery = [
   );`,
 ];
 
-for (let i; createTableQuery.length; i + 1)
+for (let i = 0; i < createTableQuery.length; i += 1) {
   pool
     .query(createTableQuery[i])
     .then()
     .catch(err => {
-      console.error(err);
+      throw err;
     });
+}
+pool
+  .query(
+    `INSERT INTO public.user (name, email, password) VALUES ('admin', 'admin@mail', 'admin');`,
+  )
+  .then()
+  .catch(err => {
+    throw err;
+  });
+
+pool
+  .query(`SELECT * FROM public.user ;`)
+  .then()
+  .catch(err => {
+    throw err;
+  });
 pool.end();
+process.exit(1);
