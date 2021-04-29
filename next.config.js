@@ -152,11 +152,4 @@ module.exports = withPlugins( [withTM, withSourceMaps, withPWA], {
     ignoreBuildErrors: true,
   },
   basePath,
-  env: {
-    'MYSQL_HOST': '127.0.0.1',
-    'MYSQL_PORT': '3306',
-    'MYSQL_DATABASE': 'rfq',
-    'MYSQL_USER': 'root',
-    'MYSQL_PASSWORD': ''
-  },
 } )
