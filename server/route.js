@@ -2,18 +2,15 @@ const express = require('express');
 
 const router = express.Router();
 
-const db = require('./db');
+const db = require('./auth');
+const verifyToken = require('./middleware/verifyToken');
 
-router.get('/', (req, res) => {
-  res.send('get');
+// Test verify route
+router.get('/test', verifyToken, (req, res) => {
+  res.json({ message: 'Test valid' });
 });
 
-router.post('/', (req, res) => {
-  res.cookie('test', 'test', { maxAge: 6000, httpOnly: true });
-  res.send('test cookie');
-});
-
-router.post('/login', db.getUserSignIn);
+router.post('/login', db.getUserLogin);
 router.post('/signup', db.createUser);
 
 module.exports = router;
