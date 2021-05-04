@@ -8,6 +8,7 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const port = process.env.SERVER_PORT || 3000;
 
+const verifyToken = require('./server/middleware/verifyToken');
 const router = require('./server/route');
 
 app
@@ -17,14 +18,7 @@ app
     server.use(bodyParser.json());
     server.use(bodyParser.urlencoded({ extended: true }));
 
-    // server.use((req, res, next) => {
-    //     res.header(
-    //         "access-Control-Allow-Headers",
-    //         "x-access-token, Origin, Content-Type, Accept"
-    //     );
-    //     next()
-    // })
-    server.use('/api', router);
+    server.use('/api', verifyToken, router);
 
     server.all('*', (req, res) => {
       return handle(req, res);
@@ -39,31 +33,3 @@ app
     console.error(excetp.stack);
     process.exit(1);
   });
-
-// app.prepare().then(() => {
-//     const server = express()
-//     server.get('*', (req, res) =>{
-//         return handle(req, res)
-//     })
-//     createServer((req, res) => {
-//         const parsedUrl = parse(req.url, true)
-//         const { pathname, query } = parsedUrl
-
-//         switch(pathname){
-//             case '/a':
-//                 app.render(req, res, '/a', query)
-//             default:
-//                 return handle(req, res)
-//         }
-//         // if (pathname === '/a') {
-//         //     app.render(req, res, '/a', query)
-//         //   } else if (pathname === '/b') {
-//         //     app.render(req, res, '/b', query)
-//         //   } else {
-//         //     handle(req, res, parsedUrl)
-//         //   }
-//     }).listen(3000, (err) =>{
-//         if (err) throw err
-//         console.log('Server runing on http://localhost:3000')
-//     })
-// })

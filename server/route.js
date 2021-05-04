@@ -2,15 +2,22 @@ const express = require('express');
 
 const router = express.Router();
 
-const db = require('./auth');
-const verifyToken = require('./middleware/verifyToken');
+const auth = require('./auth');
+// const verifyToken = require('./middleware/verifyToken');
 
 // Test verify route
-router.get('/test', verifyToken, (req, res) => {
-  res.json({ message: 'Test valid' });
-});
+// router.get('/test', verifyToken, (req, res) =>{
+//   res.json(req.user)
+// });
 
-router.post('/login', db.getUserLogin);
-router.post('/signup', db.createUser);
+// router.get('/cookie', (req, res) =>{
+//   res.send(req.headers.cookie)
+// })
+// router.get('/token',(req, res)=>{
+//   res.send(req.headers)
+// })
+router.post('/login', auth.postUserLogin);
+router.post('/signup', auth.createUser);
+router.get('/logout', auth.getUserLogout);
 
 module.exports = router;
