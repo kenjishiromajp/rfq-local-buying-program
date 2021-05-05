@@ -86,36 +86,33 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 
         [
             {
-                "Buyer": [
-                {
-                    "BuyerID": 1,
-                    "Name": "BHP",
-                    "ABN": "26 125 643 045",
-                    "Logo": "BHP",
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z"
-                },            
-                {
-                    "BuyerID": 2,
-                    "Name": "BMC",
-                    "ABN": "77 123 765 890",
-                    "Logo": "BMC",
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z"
-                },            
-                {
-                    "BuyerID": 3,
-                    "Name": "BMA",
-                    "ABN": "58 566 908 203",
-                    "Logo": "BMA",
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z"
-                }
-            ]
-        }]
+                "BuyerID": 1,
+                "Name": "BHP",
+                "ABN": "26 125 643 045",
+                "Logo": "BHP",
+                "DeletedAt": "2021-04-25T11:55:34Z",
+                "CreatedAt": "2021-04-25T11:55:34Z",
+                "UpdatedAt": "2021-04-25T11:55:34Z"
+            },            
+            {
+                "BuyerID": 2,
+                "Name": "BMC",
+                "ABN": "77 123 765 890",
+                "Logo": "BMC",
+                "DeletedAt": "2021-04-25T11:55:34Z",
+                "CreatedAt": "2021-04-25T11:55:34Z",
+                "UpdatedAt": "2021-04-25T11:55:34Z"
+            },            
+            {
+                "BuyerID": 3,
+                "Name": "BMA",
+                "ABN": "58 566 908 203",
+                "Logo": "BMA",
+                "DeletedAt": "2021-04-25T11:55:34Z",
+                "CreatedAt": "2021-04-25T11:55:34Z",
+                "UpdatedAt": "2021-04-25T11:55:34Z"
+            }
+        ]
 
 ### Create a New Buyer [POST]
 
@@ -130,25 +127,9 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             {
                 "question": "New Buyer",
                 "published_at": "2015-08-05T08:40:51.620Z",
-                "buyer": [
-                    {
-                        "Name": "smashers",
-                        "ABN": "61 882 999 855",
-                        "Logo": "pem.png"
-                    }, {
-                        "Name": "Toolbox",
-                        "ABN": "21 222 311 556",
-                        "Logo": "tool.png"
-                    }, {
-                        "Name": "Drillbit",
-                        "ABN": "88 788 311 765",
-                        "Logo": "drill.png"
-                    }, {
-                        "Name": "Hammer",
-                        "ABN": "46 234 567 692",
-                        "Logo": "hammer.png"
-                    }
-                ]
+                "Name": "smashers",
+                "ABN": "61 882 999 855",
+                "Logo": "pem.png"
             }
 
  
@@ -160,62 +141,58 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 + Response 200 (application/json)
 
         [
-            {
-                "Tender": [
-                {
-                    "TenderID": 1,
-                    "BuyerID": 1,
-                    "PublishedAt": "2021-04-25T11:55:34Z",
-                    "ClosingAt": "2021-04-25T11:55:34Z",
-                    "Description": "Create metal sheets",
-                    "State_ID": 1,
-                    "City_ID": 2,
-                    "Offer": 6000.00,
-                    "DeletedAt":"2021-04-25T11:55:34Z" ,
-                    "CreatedAt": "2021-04-25T11:55:34Z", 
-                    "UpdatedAt": "Monday"
-                },
-                {
-                    "TenderID": 2,
-                    "BuyerID": 2,
-                    "PublishedAt": "2021-04-25T11:55:34Z",
-                    "ClosingAt": "2021-04-25T11:55:34Z",
-                    "Description": "Create metal sheets",
-                    "State_ID": 2,
-                    "City_ID": 1,
-                    "Offer": 6000.00,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z", 
-                    "UpdatedAt": "Tuesday"
-                },                
-                {
-                    "TenderID": 3,
-                    "BuyerID": 2,
-                    "PublishedAt": "2021-04-25T11:55:34Z",
-                    "ClosingAt": "2021-04-25T11:55:34Z",
-                    "Description": "Create metal sheets",
-                    "State_ID": 2,
-                    "City_ID": 3,
-                    "Offer": 6000.00,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z", 
-                    "UpdatedAt": "Friday"
-                },                                
-                {
-                    "TenderID": 4,
-                    "BuyerID": 3,
-                    "PublishedAt": "2021-04-25T11:55:34Z",
-                    "ClosingAt": "2021-04-25T11:55:34Z",
-                    "Description": "Create metal sheets",
-                    "State_ID": 3,
-                    "City_ID": 4,
-                    "Offer": 6000.00,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z", 
-                    "UpdatedAt": "Wednesday"
-                }]
-            }                  
-        ]
+          {
+              "TenderID": 1,
+              "BuyerID": 1,
+              "PublishedAt": "2021-04-25T11:55:34Z",
+              "ClosingAt": "2021-04-25T11:55:34Z",
+              "Description": "Create metal sheets",
+              "State_ID": 1,
+              "City_ID": 2,
+              "Offer": 6000.00,
+              "DeletedAt":"2021-04-25T11:55:34Z" ,
+              "CreatedAt": "2021-04-25T11:55:34Z", 
+              "UpdatedAt": "Monday"
+          },
+          {
+              "TenderID": 2,
+              "BuyerID": 2,
+              "PublishedAt": "2021-04-25T11:55:34Z",
+              "ClosingAt": "2021-04-25T11:55:34Z",
+              "Description": "Create metal sheets",
+              "State_ID": 2,
+              "City_ID": 1,
+              "Offer": 6000.00,
+              "DeletedAt": "2021-04-25T11:55:34Z",
+              "CreatedAt": "2021-04-25T11:55:34Z", 
+              "UpdatedAt": "Tuesday"
+          },                
+          {
+              "TenderID": 3,
+              "BuyerID": 2,
+              "PublishedAt": "2021-04-25T11:55:34Z",
+              "ClosingAt": "2021-04-25T11:55:34Z",
+              "Description": "Create metal sheets",
+              "State_ID": 2,
+              "City_ID": 3,
+              "Offer": 6000.00,
+              "DeletedAt": "2021-04-25T11:55:34Z",
+              "CreatedAt": "2021-04-25T11:55:34Z", 
+              "UpdatedAt": "Friday"
+          },                                
+          {
+              "TenderID": 4,
+              "BuyerID": 3,
+              "PublishedAt": "2021-04-25T11:55:34Z",
+              "ClosingAt": "2021-04-25T11:55:34Z",
+              "Description": "Create metal sheets",
+              "State_ID": 3,
+              "City_ID": 4,
+              "Offer": 6000.00,
+              "DeletedAt": "2021-04-25T11:55:34Z",
+              "CreatedAt": "2021-04-25T11:55:34Z", 
+              "UpdatedAt": "Wednesday"
+          }]
 
 ### Add tender [POST]
 
@@ -228,25 +205,14 @@ Polls is a simple API allowing consumers to view polls and vote in them.
     + Body
 
             {
-                "question": "Add tender",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "tender": [
-                    {
-                    "tenderID": 1,
-                    "buyerID": 2,
-                    "Description": "Beat metal",
-                    "State_ID": 4,
-                    "City_ID": 3,
-                    "Offer": 5000.00
-                    }, {
-                    "tenderID": 6,
-                    "buyerID": 3,
-                    "Description": "Make some pipes",
-                    "State_ID": 1,
-                    "City_ID": 3,
-                    "Offer": 5023.00
-                    }
-                ]
+                "Question": "Add tender",
+                "PublishedAt": "2015-08-05T08:40:51.620Z",
+                "Tender_ID": 1,
+                "Buyer_ID": 2,
+                "Description": "Beat metal",
+                "State_ID": 4,
+                "City_ID": 3,
+                "Offer": 5000.00
             }
             
 
@@ -256,103 +222,19 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 
 + Response 200 (application/json)
 
-        [
-            {
-                
-                "User": [
-                {
-                    "UserID": 1,
-                    "Name": "BHP",
-                    "Email": "bhp@test.com",
-                    "Password": "BHP1234",
-                    "BuyerID": 1,
-                    "SupplierID": null,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z",
-                    "Token": "Asi120Ke",
-                    "RefreshToken": "asdasaccAE"
-                },
-                {
-                    "UserID": 2,
-                    "Name": "BMC",
-                    "Email": "bmc@test.com",
-                    "Password": "Bmcasaa",
-                    "BuyerID": 2,
-                    "SupplierID": null,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z",
-                    "Token": "sdawqssi120Ke",
-                    "RefreshToken": "pe03accAE"
-                },       
-                {
-                    "UserID": 3,
-                    "Name": "BMA",
-                    "Email": "bma@test.com",
-                    "Password": "AMMSAKa",
-                    "BuyerID": 3,
-                    "SupplierID": null,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z",
-                    "Token": "ppweo1223",
-                    "RefreshToken": "asxxxx"
-                }, 
-                {
-                    "UserID": 4,
-                    "Name": "Metal Supply Co",
-                    "Email": "MetalSupplyCo@test.com",
-                    "Password": "APPPPOEEEEK",
-                    "BuyerID": null,
-                    "SupplierID": 1,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z",
-                    "Token": "21230slsls",
-                    "RefreshToken": "112accAE"
-                },    
-                {
-                    "UserID": 5,
-                    "Name": "COGS",
-                    "Email": "COGS@test.com",
-                    "Password": "as22212EK",
-                    "BuyerID": null,
-                    "SupplierID": 2,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z",
-                    "Token": "sdsagccccxs",
-                    "RefreshToken": "1sadddddE"
-                },    
-                {
-                    "UserID": 6,
-                    "Name": "Tools 4 days",
-                    "Email": "T4d@test.com",
-                    "Password": "pppsaaaa7652",
-                    "BuyerID": null,
-                    "SupplierID": 3,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z",
-                    "Token": "pasqnwla;",
-                    "RefreshToken": "w1903901m,a"
-                },    
-                {
-                    "UserID": 7,
-                    "Name": "Fall ball",
-                    "email": "ball@test.com",
-                    "Password": "PAwqmqwmasd",
-                    "BuyerID": null,
-                    "SupplierID": 4,
-                    "DeletedAt": "2021-04-25T11:55:34Z",
-                    "CreatedAt": "2021-04-25T11:55:34Z",
-                    "UpdatedAt": "2021-04-25T11:55:34Z",
-                    "Token": "gyy;",
-                    "RefreshToken": "cdsdfq"
-                }]
-            }   
-        ]
+        {
+            "UserID": 1,
+            "Name": "BHP",
+            "Email": "bhp@test.com",
+            "Password": "BHP1234",
+            "BuyerID": 1,
+            "SupplierID": null,
+            "DeletedAt": "2021-04-25T11:55:34Z",
+            "CreatedAt": "2021-04-25T11:55:34Z",
+            "UpdatedAt": "2021-04-25T11:55:34Z",
+            "Token": "Asi120Ke",
+            "RefreshToken": "asdasaccAE"
+        }
 
 ## Proposals [/proposals]
 
@@ -361,53 +243,50 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 + Response 200 (application/json)
 
                 [
-                    {
-                        "Proposal": [
-                        {
-                            "PropsalID": 1,
-                            "TenderID": 1,
-                            "SupplierID": 1,
-                            "Description": "Make the sheet metal",
-                            "ApprovedAt": "2021-04-25T11:55:34Z",
-                            "Offer": 5500.00,
-                            "CreatedAt": "2021-04-25T11:55:34Z",
-                            "UpdatedAt": "2021-04-25T11:55:34Z",
-                            "DeletedAt": "2021-04-25T11:55:34Z"
-                        },
-                        {
-                            "PropsalID": 2,
-                            "TenderID": 1,
-                            "SupplierID": 2,
-                            "Description": "Mould sheet metal",
-                            "ApprovedAt": "2021-04-25T11:55:34Z",
-                            "Offer": 5459.00,
-                            "CreatedAt": "2021-04-25T11:55:34Z",
-                            "UpdatedAt": "2021-04-25T11:55:34Z",
-                            "DeletedAt": "2021-04-25T11:55:34Z"
-                        }, 
-                        {
-                            "PropsalID": 3,
-                            "TenderID": 1,
-                            "SupplierID": 4,
-                            "Description": "Beat sheet metal",
-                            "ApprovedAt": "2021-04-25T11:55:34Z",
-                            "Offer": 5230.00,
-                            "CreatedAt": "2021-04-25T11:55:34Z",
-                            "UpdatedAt": "2021-04-25T11:55:34Z",
-                            "DeletedAt": "2021-04-25T11:55:34Z"
-                        },        
-                        {
-                            "PropsalID": 4,
-                            "TenderID": 2,
-                            "SupplierID": 1,
-                            "Description": "Modify truck",
-                            "ApprovedAt": "2021-04-25T11:55:34Z",
-                            "Offer": 5500.00,
-                            "CreatedAt": "2021-04-25T11:55:34Z",
-                            "UpdatedAt": "2021-04-25T11:55:34Z",
-                            "DeletedAt": "2021-04-25T11:55:34Z"
-                        }]
-                    }        
+                  {
+                      "PropsalID": 1,
+                      "TenderID": 1,
+                      "SupplierID": 1,
+                      "Description": "Make the sheet metal",
+                      "ApprovedAt": "2021-04-25T11:55:34Z",
+                      "Offer": 5500.00,
+                      "CreatedAt": "2021-04-25T11:55:34Z",
+                      "UpdatedAt": "2021-04-25T11:55:34Z",
+                      "DeletedAt": "2021-04-25T11:55:34Z"
+                  },
+                  {
+                      "PropsalID": 2,
+                      "TenderID": 1,
+                      "SupplierID": 2,
+                      "Description": "Mould sheet metal",
+                      "ApprovedAt": "2021-04-25T11:55:34Z",
+                      "Offer": 5459.00,
+                      "CreatedAt": "2021-04-25T11:55:34Z",
+                      "UpdatedAt": "2021-04-25T11:55:34Z",
+                      "DeletedAt": "2021-04-25T11:55:34Z"
+                  }, 
+                  {
+                      "PropsalID": 3,
+                      "TenderID": 1,
+                      "SupplierID": 4,
+                      "Description": "Beat sheet metal",
+                      "ApprovedAt": "2021-04-25T11:55:34Z",
+                      "Offer": 5230.00,
+                      "CreatedAt": "2021-04-25T11:55:34Z",
+                      "UpdatedAt": "2021-04-25T11:55:34Z",
+                      "DeletedAt": "2021-04-25T11:55:34Z"
+                  },        
+                  {
+                      "PropsalID": 4,
+                      "TenderID": 2,
+                      "SupplierID": 1,
+                      "Description": "Modify truck",
+                      "ApprovedAt": "2021-04-25T11:55:34Z",
+                      "Offer": 5500.00,
+                      "CreatedAt": "2021-04-25T11:55:34Z",
+                      "UpdatedAt": "2021-04-25T11:55:34Z",
+                      "DeletedAt": "2021-04-25T11:55:34Z"
+                  }
                 ]
                 
 ### Add proposal [POST]
@@ -425,7 +304,7 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             "supplierID": [
              1,2,3,4,5,6,7,8
             ],
-            "offer": 
+            "offer": 213.2
         }
 
 + Response 201 (application/json)
@@ -439,27 +318,8 @@ Polls is a simple API allowing consumers to view polls and vote in them.
             {
                 "question": "What is your proposal?",
                 "published_at": "2015-08-05T08:40:51.620Z",
-                "proposals": [
-                    {
-                        "proposalID": 1,
-                        "tenderID": 1,
-                        "supplierID": 2,
-                        "offer": 6656.00
-                    }, {
-                        "proposalID": 4,
-                        "tenderID": 2,
-                        "supplierID": 2,
-                        "offer": 6441.00
-                    }, {
-                        "proposalID": 1,
-                        "tenderID": 1,
-                        "supplierID": 1,
-                        "offer": 6665.09
-                    }, {
-                        "proposalID": 3,
-                        "tenderID": 3,
-                        "supplierID": 3,
-                        "offer": 10000.00
-                    }
-                ]
+                "proposalID": 1,
+                "tenderID": 1,
+                "supplierID": 2,
+                "offer": 6656.00
             }
