@@ -106,11 +106,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 };
 
-const MyTendersPage: FC<IProps> = ({
-  tenders,
-  statusCode = null,
-  host = '',
-}) => {
+const Profile: FC<IProps> = ({ tenders, statusCode = null, host = '' }) => {
   const [tenderFilter, setTenderFilter] = useState<TenderState>();
   const filteredTender = useMemo(() => {
     switch (tenderFilter) {
@@ -205,4 +201,4 @@ const MyTendersPage: FC<IProps> = ({
   );
 };
 
-export default MyTendersPage;
+export default Profile;
