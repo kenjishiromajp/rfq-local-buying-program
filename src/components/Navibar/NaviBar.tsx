@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FC } from 'react';
-import { Navbar, NavDropdown, Nav, Button, Container } from 'react-bootstrap';
+import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 
 import styles from './Navibar.module.css';
 

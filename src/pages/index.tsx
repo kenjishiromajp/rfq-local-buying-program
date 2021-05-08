@@ -7,7 +7,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 
 import { motion } from 'framer-motion';
 
-import NaviBar from 'components/Navibar/NaviBar';
+// import NaviBar from 'components/Navibar/NaviBar';
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
 import SupplierDetailCard from 'components/TenderDetailCard/SupplierDetailCard';
 import TenderDetailCard from 'components/TenderDetailCard/TenderDetailCard';
