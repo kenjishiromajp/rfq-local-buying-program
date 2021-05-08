@@ -1,5 +1,5 @@
-import {ITender} from 'models/ITender';
-import {ISupplier} from 'models/ISupplier';
+import { ISupplier } from 'models/ISupplier';
+import { ITender } from 'models/ITender';
 
 export interface IProposal {
   ID: number;

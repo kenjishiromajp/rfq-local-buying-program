@@ -1,15 +1,15 @@
 import { Sequelize } from 'sequelize';
 
+import { BuyerFactory } from './Buyer';
+import { CityFactory } from './City';
+import { ProposalFactory } from './Proposal';
+import { ProposalAttachmentFactory } from './ProposalAttachment';
+import { StateFactory } from './State';
+import { SupplierFactory } from './Supplier';
+import { SupplyCategoryFactory } from './SupplyCategory';
+import { TenderFactory } from './Tender';
+import { TenderAttachmentFactory } from './TenderAttachment';
 import { UserFactory } from './User';
-import {StateFactory} from './State';
-import {ProposalAttachmentFactory} from './ProposalAttachment';
-import {TenderAttachmentFactory} from './TenderAttachment';
-import {CityFactory} from './City';
-import {SupplierFactory} from './Supplier';
-import {SupplyCategoryFactory} from './SupplyCategory';
-import {ProposalFactory} from './Proposal';
-import {BuyerFactory} from './Buyer';
-import {TenderFactory} from './Tender';
 // import {userFactory} from "./user-model";
 // import {skillsFactory} from "./other-model";
 
