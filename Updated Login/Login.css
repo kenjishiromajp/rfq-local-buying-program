@@ -39,6 +39,9 @@
 }
 
 body{
-    background: url("/static/1233.jpg");
+    width: 1920px;
+    height: 1200px;
+    background: url(/static/1233.jpg) no-repeat;
+    background-size: 100% auto;
 
 }

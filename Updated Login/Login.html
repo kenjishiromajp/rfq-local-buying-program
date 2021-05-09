@@ -3,25 +3,35 @@
 <head>
     <meta charSet="utf-8">
     <title>Login</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="Login.css">
 
 </head>
-<body>
+
+    <body class = "login">
     <div id="login-box">
-    <h1>Login</h1>
-    <div class="form">
-        <div class="item">
-            <label>
-                <input type="text" placeholder="UserID">
-            </label>
-        </div>
-        <div class="item">
-            <label>
+        <h1>Login</h1>
+        <div class="form">
+            <div class="item">
+            <form>
+                <form.Control name = "Username">
+
+                </form.Control>
+            </form>
+
+                <input type="text" placeholder="Username">
+            </div>
+
+            <div class="item">
+            <form>
+                <form.Control password = "Password">
+
+                </form.Control>
+            </form>
+
                 <input type="password" placeholder="Password">
-            </label>
+            </div>
         </div>
+        <button>Login</button>
     </div>
-    <button>Login</button>
-    </div>
-</body>
+    </body>
 </html>
