@@ -3,18 +3,16 @@ import nextConnect from 'next-connect';
 
 import pool from 'utils/db';
 
-const getTenderByID = async (ID: number) =>
+const getProposalByID = async (ID: number) =>
   pool.query(`SELECT * FROM "Proposal" WHERE "ID"=$1`, [ID]);
 
 const handler = nextConnect().get(
   async (req: NextApiRequest, res: NextApiResponse) => {
     const { ID } = req.query;
-    let Proposal = [];
     try {
-      const result = await getTenderByID(ID);
+      const result = await getProposalByID(ID);
       if (result.rowCount > 0) {
-        Proposal = result.rows[0];
-        return res.status(200).json({ success: true, Proposal });
+        return res.status(200).json({ success: true, data: result.rows[0] });
       }
       return res
         .status(400)
