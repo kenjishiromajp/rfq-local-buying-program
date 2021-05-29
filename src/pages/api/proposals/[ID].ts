@@ -8,7 +8,7 @@ const getTenderByID = async (ID: number) =>
 
 const handler = nextConnect().get(
   async (req: NextApiRequest, res: NextApiResponse) => {
-    const { ID } = req.body;
+    const { ID } = req.query;
     let Proposal = [];
     try {
       const result = await getTenderByID(ID);

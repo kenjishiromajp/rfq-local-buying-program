@@ -9,7 +9,7 @@ const handler = nextConnect().get(
     pool
       .query(`SELECT * FROM "Supplier" WHERE "ID"=${ID}`)
       .then((result: any) => {
-        return res.status(200).json({ success: true, items: result.rows });
+        return res.status(200).json({ success: true, data: result.rows });
       })
       .catch((err: any) => {
         return res.status(500).json({

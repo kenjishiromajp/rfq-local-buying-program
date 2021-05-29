@@ -39,7 +39,7 @@ const handler = nextConnect()
       .query(`SELECT * FROM "Tender"`)
       .then((result: any) => {
         if (result.rowCount > 0)
-          return res.status(200).json({ success: true, Tenders: result.rows });
+          return res.status(200).json({ success: true, items: result.rows });
         return res.status(500).json({
           success: false,
           message: 'Something wrong when getting Tenders',
