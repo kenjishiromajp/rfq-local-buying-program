@@ -1,18 +1,19 @@
-import { GetStaticProps } from 'next';
 import ErrorPage from 'next/error';
 import Head from 'next/head';
 import Link from 'next/link';
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { Button, ButtonGroup, Col, Row } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 import { motion } from 'framer-motion';
 import moment from 'moment';
 import { $enum } from 'ts-enum-util';
+import realRequest from 'utils/realRequest';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
-import request from 'utils/request';
 
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
 import TenderDetailCard from 'components/TenderDetailCard/TenderDetailCard';
+import { useAuth } from 'contexts/authContext';
 import { ITender } from 'models/ITender';
 
 import MainLayout from '../../layouts/MainLayout';
@@ -28,32 +29,26 @@ enum TenderState {
   active = 'Active',
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    // const api = fetcherNextJSAPI();
-    // const [] = await Promise.all([
-    //   // TODO: Add the requests
-    // ]);
-    const { data: tenders } = await request('/tenders');
-    return {
-      props: {
-        tenders,
-      },
-      revalidate: 60, // time in seconds
-    };
-  } catch (error) {
-    console.error('[ERROR]', error);
-    return {
-      props: {
-        statusCode: error.status || null,
-      },
-      revalidate: 1, // time in seconds
-    };
-  }
-};
-
-const TendersPage: FC<IProps> = ({ tenders, statusCode = null, host = '' }) => {
+const TendersPage: FC<IProps> = ({ statusCode = null, host = '' }) => {
+  const { user } = useAuth();
   const [tenderFilter, setTenderFilter] = useState<TenderState>();
+  const [tenders, setTenders] = useState<ITender[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (user?.Buyer_ID) {
+          const {
+            data: { items: responseTenders },
+          } = await realRequest(`/api/my/tenders`);
+          setTenders(responseTenders);
+        }
+      } catch {
+        toast.error('There was an error.');
+      }
+    })();
+  }, [user]);
+
   const filteredTender = useMemo(() => {
     switch (tenderFilter) {
       case TenderState.closed:
@@ -142,11 +137,11 @@ const TendersPage: FC<IProps> = ({ tenders, statusCode = null, host = '' }) => {
             </Row>
             <Row>
               {filteredTender.map((tender: ITender) => (
-                <Col key={tender.ID} md={3} className="mb-3">
+                <Col key={tender.ID} sm={6} md={4} lg={3} className="mb-3">
                   <Link href={`/tenders/${tender.ID}`} passHref>
                     <Button
                       variant="link"
-                      className="p-0 text-dark text-left radius-0"
+                      className="p-0 text-dark text-left radius-0 d-block"
                       as="a"
                     >
                       <TenderDetailCard tender={tender} />

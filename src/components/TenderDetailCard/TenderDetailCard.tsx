@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { FC, HTMLProps, useMemo } from 'react';
 import { Badge, Col, Row } from 'react-bootstrap';
 
@@ -21,13 +22,15 @@ const TenderDetailCard: FC<IProps> = ({ tender, className, ...props }) => {
       })}
       {...props}
     >
-      <div className="img position-relative mb-2">
-        <img
-          src={tender.HeadingImage}
-          alt={tender.Title}
-          className="radius-sm overflow-hidden object-fit-contain w-100"
-          style={{ height: '200px' }}
-        />
+      <div className="position-relative mb-2">
+        <div className="radius-sm overflow-hidden" style={{ height: '120px' }}>
+          <Image
+            layout="fill"
+            src={tender.HeadingImage}
+            alt={tender.Title}
+            objectFit="cover"
+          />
+        </div>
         <div className="position-absolute p-2 left-0 bottom-0">
           {(tender.SupplyCategories || []).map(supplyCategory => (
             <Badge

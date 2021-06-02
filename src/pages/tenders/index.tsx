@@ -6,8 +6,8 @@ import { FC, useMemo, useState } from 'react';
 import { Button, Form, Col, Row } from 'react-bootstrap';
 
 import { motion } from 'framer-motion';
+import realRequest from 'utils/realRequest';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
-import request from 'utils/request';
 
 import Navbar from 'components/Navibar/NaviBar';
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
@@ -24,7 +24,9 @@ interface IProps {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const { data: tenders } = await request.get<ITender[]>('/tenders');
+    const {
+      data: { items: tenders },
+    } = await realRequest.get<{ items: ITender[] }>('/api/tenders');
     return {
       props: {
         tenders,
@@ -86,15 +88,6 @@ const TendersPage: FC<IProps> = ({ tenders, statusCode = null, host = '' }) => {
               <h4 className="text-center">Looking for current tenders?</h4>
             </Row>
             <Row className="justify-content-md-center mt-3">
-              {/* I want to put searchbar in the center of this image */}
-              {/* <SectionWithContainer className="position-relative">
-                                <img
-                                    src="images/tenders_bg.jpg"
-                                    alt="Office Background"
-                                    width="100%"
-                                    height="500px"
-                                />
-                            </SectionWithContainer> */}
               <Col lg="6">
                 <Form.Control
                   value={search}
@@ -116,7 +109,7 @@ const TendersPage: FC<IProps> = ({ tenders, statusCode = null, host = '' }) => {
                   <Link href={`/tenders/${tender.ID}`} passHref>
                     <Button
                       variant="link"
-                      className="p-0 text-dark text-left radius-0"
+                      className="p-0 text-dark text-left radius-0 d-block"
                       as="a"
                     >
                       <TenderDetailCard tender={tender} />

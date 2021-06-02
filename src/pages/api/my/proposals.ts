@@ -28,6 +28,27 @@ const createProposalAttachment = async (ID: number, URL: string) =>
 
 const handler = nextConnect()
   .use(authUserMiddleware())
+  .get((req: NextApiRequest, res: NextApiResponse) => {
+    pool
+      .query(`SELECT * FROM "Proposal" WHERE "Supplier_ID" = $1`, [
+        req.user?.Supplier_ID,
+      ])
+      .then((result: any) => {
+        if (result.rowCount > 0)
+          return res.status(200).json({ success: true, items: result.rows });
+        return res.status(400).json({
+          succes: false,
+          message: 'Something wrong when getting Proposal',
+        });
+      })
+      .catch((err: any) => {
+        return res.status(500).json({
+          success: false,
+          message: 'Something wrong with Proposal',
+          err,
+        });
+      });
+  })
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
     const { Description, Offer, Tender_ID } = req.body;
     const Supplier_ID = req.user?.Supplier_ID;

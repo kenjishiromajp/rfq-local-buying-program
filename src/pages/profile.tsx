@@ -21,37 +21,36 @@ interface IProps {
 
 const MyProfilePage: FC<IProps> = ({ host = '' }) => {
   const { user } = useAuth();
-  const [buyer, setBuyer] = useState<IBuyer | undefined>({
-    ID: 1,
-    Name: 'Test Name',
-    ABN: '123123',
-    Logo:
-      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80',
-    State_ID: 2,
-    City_ID: 2,
-    CreatedAt: '2021-05-01',
-  });
+  const [buyer, setBuyer] = useState<IBuyer | undefined>();
   const [supplier, setSupplier] = useState<ISupplier | undefined>();
   useEffect(() => {
     (async () => {
       try {
         if (user?.Buyer_ID) {
-          const { data: responseBuyer } = await realRequest(
-            `/api/buyers/${user.Buyer_ID}`,
-          );
-          setBuyer(responseBuyer);
+          const [
+            {
+              data: { data: responseBuyer },
+            },
+            {
+              data: { items: responseTenders },
+            },
+          ] = await Promise.all([
+            realRequest(`/api/buyers/${user.Buyer_ID}`),
+            realRequest(`/api/my/tenders`),
+          ]);
+          setBuyer({ ...responseBuyer, Tenders: responseTenders });
         }
         if (user?.Supplier_ID) {
-          const { data: responseSupplier } = await realRequest(
-            `/api/suppliers/${user.Supplier_ID}`,
-          );
+          const {
+            data: { data: responseSupplier },
+          } = await realRequest(`/api/suppliers/${user.Supplier_ID}`);
           setSupplier(responseSupplier);
         }
       } catch {
         toast.error('There was an error.');
       }
     })();
-  }, []);
+  }, [user]);
 
   return (
     <>

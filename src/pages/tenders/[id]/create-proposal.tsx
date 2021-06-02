@@ -11,7 +11,6 @@ import { motion } from 'framer-motion';
 import moment from 'moment';
 import realRequest from 'utils/realRequest';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
-import request from 'utils/request';
 
 import RowWithOffsetCol from 'components/RowWithOffsetCol/RowWithOffsetCol';
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
@@ -26,7 +25,9 @@ interface IProps {
 }
 
 export const getStaticPaths = async () => {
-  const { data: tenders } = await request.get<ITender[]>('/tenders');
+  const {
+    data: { items: tenders },
+  } = await realRequest.get<{ items: ITender[] }>('/api/tenders');
   return {
     paths: tenders.map(tender => ({
       params: { id: tender.ID.toString() },
@@ -37,8 +38,10 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
-    const { data: tender } = await request.get<ITender[]>(
-      `/tenders/${params?.id || '0'}`,
+    const {
+      data: { data: tender },
+    } = await realRequest.get<{ data: ITender }>(
+      `/api/tenders/${params?.id || '0'}`,
     );
     return {
       props: {
@@ -85,7 +88,7 @@ const CreateProposalPage: FC<IProps> = ({
       );
       toast.success('Created successfully');
       if (createProposalResponse?.data?.ID) {
-        router.push(`/tenders/${createProposalResponse.data.ID}`);
+        router.push(`/proposals/${createProposalResponse.data.ID}`);
       }
     } catch (error) {
       toast.error('Something happened');

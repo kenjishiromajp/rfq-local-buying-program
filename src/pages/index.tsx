@@ -6,6 +6,7 @@ import { FC } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 
 import { motion } from 'framer-motion';
+import realRequest from 'utils/realRequest';
 import request from 'utils/request';
 
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
@@ -26,8 +27,13 @@ interface IProps {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const [{ data: tenders }, { data: suppliers }] = await Promise.all([
-      request.get<ISupplier[]>('/tenders'),
+    const [
+      {
+        data: { items: tenders },
+      },
+      { data: suppliers },
+    ] = await Promise.all([
+      realRequest.get<{ items: ISupplier[] }>('/api/tenders'),
       request.get<ISupplier[]>('/suppliers'),
     ]);
     return {

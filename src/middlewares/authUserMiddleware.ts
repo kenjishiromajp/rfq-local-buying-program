@@ -11,9 +11,11 @@ const authUserMiddleware = () => {
       const token = (req.headers.authorization || '')
         .replace('Bearer', '')
         .trim();
-      req.user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-        ? (jwt.decode(token) as IUser)
-        : undefined;
+      if (token) {
+        req.user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+          ? (jwt.decode(token) as IUser)
+          : undefined;
+      }
     } catch (error) {
       console.error(error);
     }
