@@ -2,6 +2,7 @@ import { IBuyer } from 'models/IBuyer';
 import { ICity } from 'models/ICity';
 import { IState } from 'models/IState';
 import { ISupplyCategory } from 'models/ISupplyCategory';
+import { ITenderProduct } from 'models/ITenderProduct';
 
 export interface ITender {
   ID: number;
@@ -21,4 +22,5 @@ export interface ITender {
   CreatedAt: string;
   UpdatedAt?: string;
   SupplyCategories?: ISupplyCategory[];
+  TenderProducts?: ITenderProduct[];
 }

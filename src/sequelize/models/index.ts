@@ -9,7 +9,9 @@ import { SupplierFactory } from './Supplier';
 import { SupplyCategoryFactory } from './SupplyCategory';
 import { TenderFactory } from './Tender';
 import { TenderAttachmentFactory } from './TenderAttachment';
+import { TenderProductFactory } from './TenderProduct';
 import { UserFactory } from './User';
+import {ProposalTenderProductFactory} from './ProposalTenderProduct';
 // import {userFactory} from "./user-model";
 // import {skillsFactory} from "./other-model";
 
@@ -43,6 +45,8 @@ export const Buyer = BuyerFactory(dbConfig);
 export const User = UserFactory(dbConfig);
 export const Tender = TenderFactory(dbConfig);
 export const TenderAttachment = TenderAttachmentFactory(dbConfig);
+export const TenderProduct = TenderProductFactory(dbConfig);
+export const ProposalTenderProduct = ProposalTenderProductFactory(dbConfig);
 
 // STATE
 State.hasMany(City, {
@@ -132,6 +136,14 @@ Proposal.hasMany(ProposalAttachment, {
   onUpdate: 'CASCADE',
 });
 
+Proposal.hasMany(ProposalTenderProduct, {
+  sourceKey: 'ID',
+  foreignKey: 'Proposal_ID',
+  as: 'ProposalTenderProducts',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
 // Buyer
 Buyer.hasOne(User, {
   sourceKey: 'ID',
@@ -202,6 +214,14 @@ Tender.hasMany(TenderAttachment, {
   sourceKey: 'ID',
   foreignKey: 'Tender_ID',
   as: 'TenderAttachments',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+Tender.hasMany(TenderProduct, {
+  sourceKey: 'ID',
+  foreignKey: 'Tender_ID',
+  as: 'TenderProducts',
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });

@@ -6,7 +6,11 @@ import { Op } from 'sequelize';
 
 import authUserMiddleware from '../../../middlewares/authUserMiddleware';
 import { withErrorHandler } from '../../../middlewares/withErrorHandler';
-import { Tender, TenderAttachment } from '../../../sequelize/models';
+import {
+  Tender,
+  TenderAttachment,
+  TenderProduct,
+} from '../../../sequelize/models';
 
 const handler = nextConnect()
   .use(authUserMiddleware())
@@ -33,21 +37,12 @@ const handler = nextConnect()
   })
   .post(
     withErrorHandler(async (req: NextApiRequest, res: NextApiResponse) => {
-      // const tender = await Tender.create({
-      //   Title: 'wdasdasdsd',
-      //   ClosingAt: new Date('2026-03-04'),
-      //   Description:
-      //     '<h1>asdsadasdasdfsadfjdshafjksa</h1>\n' +
-      //     '<p>as</p>\n<p>dsdasdasdsjjskdajadls</p>',
-      //   City_ID: 1,
-      //   State_ID: 1,
-      // });
-
       const {
         TenderAttachments,
         ClosingAt,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         SupplyCategories,
+        TenderProducts,
         ...restProps
       } = req.body;
       const Buyer_ID = req.user?.Buyer_ID;
@@ -59,6 +54,15 @@ const handler = nextConnect()
         ClosingAt: new Date(ClosingAt),
         Buyer_ID,
       });
+
+      if (TenderProducts?.length) {
+        await TenderProduct.bulkCreate(
+          TenderProducts.map((tenderProduct: any) => ({
+            ...tenderProduct,
+            Tender_ID: tender.ID,
+          })),
+        );
+      }
 
       if (TenderAttachments !== undefined && TenderAttachments?.length > 0) {
         await Promise.all(

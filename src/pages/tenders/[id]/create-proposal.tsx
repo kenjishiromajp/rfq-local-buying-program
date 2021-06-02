@@ -2,11 +2,12 @@ import { GetStaticProps } from 'next';
 import ErrorPage from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+import { Editor } from '@tinymce/tinymce-react';
 import { motion } from 'framer-motion';
 import moment from 'moment';
 import realRequest from 'utils/realRequest';
@@ -65,10 +66,12 @@ const CreateProposalPage: FC<IProps> = ({
   statusCode = null,
   host = '',
 }) => {
+  const editorRef = useRef(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -144,9 +147,28 @@ const CreateProposalPage: FC<IProps> = ({
                       <Form.Label>
                         Can you describe your solution / product?
                       </Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        {...register('Description')}
+                      <Controller
+                        name="Description"
+                        control={control}
+                        render={({ field }) => (
+                          <Editor
+                            onInit={(evt: any, editor: any) => {
+                              editorRef.current = editor;
+                            }}
+                            value={field.value}
+                            onSelectionChange={(_, editor) => {
+                              const html = editor.getContent();
+                              field.onChange(html);
+                            }}
+                            init={{
+                              zIndex: 0,
+                              height: 500,
+                              menubar: false,
+                              content_style:
+                                'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                            }}
+                          />
+                        )}
                       />
                       {errors.Description && (
                         <span className="text-error">{errors.Description}</span>

@@ -1,5 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 
+import { TenderProduct } from './TenderProduct';
+
 export interface TenderAttributes {
   ID?: number;
   Buyer_ID?: number;
@@ -12,6 +14,7 @@ export interface TenderAttributes {
   DeletedAt?: Date;
   CreatedAt?: Date;
   UpdatedAt?: Date;
+  TenderProducts?: TenderProduct[];
 }
 export interface TenderModel
   extends Model<TenderAttributes>,

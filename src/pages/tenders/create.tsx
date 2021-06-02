@@ -22,6 +22,7 @@ import { IState } from 'models/IState';
 import { ISupplyCategory } from 'models/ISupplyCategory';
 
 import MainLayout from '../../layouts/MainLayout';
+import MultipleProductFormControl from 'components/MultipleProductFormControl/MultipleProductFormControl';
 
 interface IProps {
   statusCode?: number;
@@ -250,6 +251,18 @@ const CreateTenderPage: FC<IProps> = ({
                                 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
                             }}
                           />
+                        )}
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>
+                        Can you add the products?
+                      </Form.Label>
+                      <Controller
+                        name="TenderProducts"
+                        control={control}
+                        render={({ field }) => (
+                          <MultipleProductFormControl {...field} />
                         )}
                       />
                     </Form.Group>
