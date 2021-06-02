@@ -18,9 +18,13 @@ const SupplierProfile: FC<IProps> = ({ supplier }) => {
             className="overflow-hidden"
           >
             <Image
+              priority
               objectFit="cover"
               layout="fill"
-              src={supplier.Logo}
+              src={
+                supplier.Logo ||
+                'https://images.unsplash.com/photo-1608661649625-a3c3c576f9b5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80'
+              }
               alt={supplier.Name}
             />
           </Card>

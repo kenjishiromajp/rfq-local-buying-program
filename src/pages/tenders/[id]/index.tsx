@@ -89,6 +89,7 @@ const TenderDetailPage: FC<IProps> = ({
         )}
       </Head>
       <MainLayout>
+        <Navbar />
         <motion.div
           key="my-tenders"
           initial={{ opacity: 0, y: 40 }}
@@ -96,11 +97,13 @@ const TenderDetailPage: FC<IProps> = ({
           exit={{ opacity: 0, y: 40 }}
           transition={{ ease: 'easeInOut', duration: 0.3 }}
         >
-          <Navbar />
           <div>
             <SectionWithContainer
               style={{
-                background: `url(${tender.HeadingImage})`,
+                background: `url(${
+                  tender.HeadingImage ||
+                  'https://images.unsplash.com/photo-1605843799949-dd30451e2fc5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=666&q=80'
+                })`,
                 backgroundSize: 'cover',
               }}
             >
@@ -126,11 +129,18 @@ const TenderDetailPage: FC<IProps> = ({
                       Attachments
                     </Button>
                   </Col>
-                  <Col md="auto">
-                    <Button size="sm" variant="outline-primary">
-                      Contact the company
-                    </Button>
-                  </Col>
+                  {tender.Buyer?.User?.Email && (
+                    <Col md="auto">
+                      <Button
+                        size="sm"
+                        variant="outline-primary"
+                        as="a"
+                        href={`mailto:${tender.Buyer.User.Email}`}
+                      >
+                        Contact the company
+                      </Button>
+                    </Col>
+                  )}
                   {user?.Supplier_ID && (
                     <Col md="auto">
                       <Link

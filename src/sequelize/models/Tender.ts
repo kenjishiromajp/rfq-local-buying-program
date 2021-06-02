@@ -1,16 +1,16 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 
 export interface TenderAttributes {
-  ID: number;
+  ID?: number;
   Buyer_ID?: number;
   PublishedAt?: Date;
   ClosingAt?: Date;
+  Title: string;
   Description: string;
   State_ID?: number;
   City_ID?: number;
-  Offer?: number;
   DeletedAt?: Date;
-  CreatedAt: Date;
+  CreatedAt?: Date;
   UpdatedAt?: Date;
 }
 export interface TenderModel
@@ -24,54 +24,62 @@ export type TenderStatic = typeof Model & {
 };
 
 export function TenderFactory(sequelize: Sequelize): TenderStatic {
-  return <TenderStatic>sequelize.define('Tender', {
-    ID: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  return <TenderStatic>sequelize.define(
+    'Tender',
+    {
+      ID: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      Buyer_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      PublishedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      ClosingAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      Description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      State_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      City_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      DeletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      CreatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
+      },
+      UpdatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    Buyer_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
+    {
+      freezeTableName: true,
+      createdAt: 'CreatedAt',
+      updatedAt: 'UpdatedAt',
     },
-    PublishedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    ClosingAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    Description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    State_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    City_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    Offer: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-    },
-    DeletedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    CreatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
-    },
-    UpdatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
-    },
-  });
+  );
 }

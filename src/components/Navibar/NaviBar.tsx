@@ -2,22 +2,30 @@ import Link from 'next/link';
 import { FC } from 'react';
 import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 
+import cx from 'classnames';
+
 import { useAuth } from 'contexts/authContext';
 
-import styles from './Navibar.module.css';
+import styles from './Navibar.module.scss';
 
 const NaviBar: FC = () => {
   const { user, logout } = useAuth();
   return (
-    <Navbar fixed="top" bg="light" expand="lg" variant="light">
+    <Navbar
+      fixed="top"
+      bg="light"
+      expand="lg"
+      variant="dark"
+      className={cx('bg-dark-grey', styles.navbar)}
+    >
       <Container>
         <Link href="/" passHref>
           <Navbar.Brand>
             <img
-              src="/images/logo.jpg"
+              src="/imgs/logoLBP.svg"
               className="d-inline-block align-top"
               alt="logo"
-              width="180px"
+              width="120px"
             />
           </Navbar.Brand>
         </Link>
@@ -45,14 +53,14 @@ const NaviBar: FC = () => {
           </Nav>
           {user ? (
             <div className="d-flex align-items-center">
-              <span className="mr-2">{user.Email}</span>
+              <span className="mr-2 text-white">{user.Email}</span>
               <Button size="sm" variant="link" onClick={() => logout()}>
                 Logout
               </Button>
             </div>
           ) : (
             <Link href="/login">
-              <Button as="a" size="sm" href="#SIGNIN" variant="outline-success">
+              <Button as="a" size="sm" href="#SIGNIN" variant="outline-white">
                 Sign In
               </Button>
             </Link>

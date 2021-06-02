@@ -21,7 +21,7 @@ const BuyerProfile: FC<IProps> = ({ buyer, tenders }) => {
             style={{ width: '100%', height: '200px' }}
             className="overflow-hidden"
           >
-            <Image layout="fill" src={buyer.Logo} alt={buyer.Name} />
+            <Image priority layout="fill" src={buyer.Logo} alt={buyer.Name} />
           </Card>
           <h2>{buyer.Name}</h2>
           <div className="d-flex">

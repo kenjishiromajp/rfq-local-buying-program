@@ -25,8 +25,12 @@ const TenderDetailCard: FC<IProps> = ({ tender, className, ...props }) => {
       <div className="position-relative mb-2">
         <div className="radius-sm overflow-hidden" style={{ height: '120px' }}>
           <Image
+            priority
             layout="fill"
-            src={tender.HeadingImage}
+            src={
+              tender.HeadingImage ||
+              'https://images.unsplash.com/photo-1608661649625-a3c3c576f9b5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80'
+            }
             alt={tender.Title}
             objectFit="cover"
           />

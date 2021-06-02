@@ -20,20 +20,27 @@ export type TenderAttachmentStatic = typeof Model & {
 export function TenderAttachmentFactory(
   sequelize: Sequelize,
 ): TenderAttachmentStatic {
-  return <TenderAttachmentStatic>sequelize.define('TenderAttachment', {
-    ID: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  return <TenderAttachmentStatic>sequelize.define(
+    'TenderAttachment',
+    {
+      ID: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      URL: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Tender_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
-    URL: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      freezeTableName: true,
+      timestamps: false,
     },
-    Tender_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-  });
+  );
 }

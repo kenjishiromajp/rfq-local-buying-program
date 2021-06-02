@@ -2,11 +2,12 @@ import { GetStaticProps } from 'next';
 import ErrorPage from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
+import { Editor } from '@tinymce/tinymce-react';
 import { motion } from 'framer-motion';
 import realRequest from 'utils/realRequest';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
@@ -78,6 +79,7 @@ const CreateTenderPage: FC<IProps> = ({
   statusCode = null,
   host = '',
 }) => {
+  const editorRef = useRef(null);
   const router = useRouter();
   const {
     register,
@@ -223,19 +225,32 @@ const CreateTenderPage: FC<IProps> = ({
                       </Row>
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>How much is the maximum price?</Form.Label>
-                      <Form.Control {...register('Offer')} type="number" />
-                      {errors.Offer && (
-                        <span className="text-error">{errors.Offer}</span>
-                      )}
-                    </Form.Group>
-                    <Form.Group>
                       <Form.Label>
                         Can you describe in detail what are the requirements?
                       </Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        {...register('Description')}
+
+                      <Controller
+                        name="Description"
+                        control={control}
+                        render={({ field }) => (
+                          <Editor
+                            onInit={(evt: any, editor: any) => {
+                              editorRef.current = editor;
+                            }}
+                            value={field.value}
+                            onSelectionChange={(_, editor) => {
+                              const html = editor.getContent();
+                              field.onChange(html);
+                            }}
+                            init={{
+                              zIndex: 0,
+                              height: 500,
+                              menubar: false,
+                              content_style:
+                                'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                            }}
+                          />
+                        )}
                       />
                     </Form.Group>
                     <Form.Group>

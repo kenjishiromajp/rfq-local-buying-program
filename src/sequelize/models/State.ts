@@ -13,20 +13,27 @@ export type StateStatic = typeof Model & {
 };
 
 export function StateFactory(sequelize: Sequelize): StateStatic {
-  return <StateStatic>sequelize.define('State', {
-    ID: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  return <StateStatic>sequelize.define(
+    'State',
+    {
+      ID: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      Name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Acronym: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    Name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      freezeTableName: true,
+      timestamps: false,
     },
-    Acronym: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  });
+  );
 }

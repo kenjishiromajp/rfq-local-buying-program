@@ -17,38 +17,54 @@ export type BuyerStatic = typeof Model & {
 };
 
 export function BuyerFactory(sequelize: Sequelize): BuyerStatic {
-  return <BuyerStatic>sequelize.define('Buyer', {
-    ID: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  return <BuyerStatic>sequelize.define(
+    'Buyer',
+    {
+      ID: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      Name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      ABN: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Logo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      State_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      City_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      CreatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      UpdatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      DeletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
+      },
     },
-    Name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      freezeTableName: true,
+      createdAt: 'CreatedAt',
+      updatedAt: 'UpdatedAt',
     },
-    ABN: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    Logo: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    CreatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    UpdatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    DeletedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
-    },
-  });
+  );
 }

@@ -2,7 +2,7 @@ import ErrorPage from 'next/error';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -29,7 +29,13 @@ const LoginPage: FC<IProps> = ({ statusCode = null, host = '' }) => {
   const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.push('/');
+    }
+  }, []);
 
   if (statusCode) {
     return <ErrorPage statusCode={statusCode} />;

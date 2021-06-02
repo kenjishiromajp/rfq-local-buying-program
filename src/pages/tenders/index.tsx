@@ -70,6 +70,7 @@ const TendersPage: FC<IProps> = ({ tenders, statusCode = null, host = '' }) => {
         )}
       </Head>
       <MainLayout>
+        <Navbar />
         <motion.div
           key="my-tenders"
           initial={{ opacity: 0, y: 40 }}
@@ -77,7 +78,6 @@ const TendersPage: FC<IProps> = ({ tenders, statusCode = null, host = '' }) => {
           exit={{ opacity: 0, y: 40 }}
           transition={{ ease: 'easeInOut', duration: 0.3 }}
         >
-          <Navbar />
           <SectionWithContainer>
             <Row className="justify-content-between">
               <Col md="auto">

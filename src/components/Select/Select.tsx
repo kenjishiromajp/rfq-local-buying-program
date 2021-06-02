@@ -15,6 +15,7 @@ const Select: FC<SelectProps> = ({
   return (
     <ReactSelect
       styles={{
+        menu: provided => ({ ...provided, zIndex: 9999 }),
         control: (controlProps: any) => {
           return {
             ...controlProps,

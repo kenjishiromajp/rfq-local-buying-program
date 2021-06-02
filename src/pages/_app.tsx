@@ -35,6 +35,7 @@ function MyApp({ Component, pageProps }: IProps) {
   return (
     <AuthContextProvider>
       <Head>
+        <script src="/tinymce/tinymce.min.js" />
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta

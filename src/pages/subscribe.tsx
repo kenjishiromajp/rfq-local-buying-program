@@ -3,7 +3,7 @@ import ErrorPage from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { Button, Card, Col, Form, FormProps, Row } from 'react-bootstrap';
+import { Button, Card, Form, FormProps } from 'react-bootstrap';
 import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -15,6 +15,7 @@ import realRequest from 'utils/realRequest';
 import FormControlFile from 'components/FormControlFile/FormControlFile';
 import FormGroupWithLabelAndControl from 'components/FormGroupWithLabelAndControl/FormGroupWithLabelAndControl';
 import FormGroupWithLabelAndSelect from 'components/FormGroupWithLabelAndSelect/FormGroupWithLabelAndSelect';
+import RowWithOffsetCol from 'components/RowWithOffsetCol/RowWithOffsetCol';
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
 import { useAuth } from 'contexts/authContext';
 import { ICity } from 'models/ICity';
@@ -187,11 +188,15 @@ const SupplierSubscribeForm: FC<SupplierSubscribeFormProps> = ({
 interface BuyerSubscribeFormProps extends Except<FormProps, 'onSubmit'> {
   onSubmit?: (value: any) => any;
   loading?: boolean;
+  states: IState[];
+  cities: ICity[];
 }
 
 const BuyerSubscribeForm: FC<BuyerSubscribeFormProps> = ({
   onSubmit = () => {},
   loading,
+  cities,
+  states,
   ...props
 }) => {
   const { register, handleSubmit, control } = useForm();
@@ -227,6 +232,36 @@ const BuyerSubscribeForm: FC<BuyerSubscribeFormProps> = ({
           render={({ field }) => <FormControlFile {...field} />}
         />
       </Form.Group>
+      <Controller
+        name="State_ID"
+        control={control}
+        defaultValue={false}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <FormGroupWithLabelAndSelect
+            label="State"
+            selectProps={{
+              options: states,
+              ...field,
+            }}
+          />
+        )}
+      />
+      <Controller
+        name="City_ID"
+        control={control}
+        defaultValue={false}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <FormGroupWithLabelAndSelect
+            label="City"
+            selectProps={{
+              options: cities,
+              ...field,
+            }}
+          />
+        )}
+      />
       <Button disabled={loading} type="submit">
         Register
       </Button>
@@ -295,31 +330,31 @@ const SubscribePage: FC<IProps> = ({
           transition={{ ease: 'easeInOut', duration: 0.3 }}
         >
           <SectionWithContainer className="bg-light-grey">
-            <Row>
-              <Col className="offset-md-1" md={10}>
-                <Card>
-                  <Card.Body>
-                    <h1 className="mb-5">
-                      Subscribe as {(type || '').toLocaleUpperCase()}
-                    </h1>
-                    {SubscribePageTypes.buyer === type ? (
-                      <BuyerSubscribeForm
-                        loading={loading}
-                        onSubmit={onSubmit}
-                      />
-                    ) : (
-                      <SupplierSubscribeForm
-                        cities={cities}
-                        states={states}
-                        supplyCategories={supplyCategories}
-                        loading={loading}
-                        onSubmit={onSubmit}
-                      />
-                    )}
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
+            <RowWithOffsetCol offset={2}>
+              <Card>
+                <Card.Body>
+                  <h1 className="mb-5">
+                    Subscribe as {(type || '').toLocaleUpperCase()}
+                  </h1>
+                  {SubscribePageTypes.buyer === type ? (
+                    <BuyerSubscribeForm
+                      cities={cities}
+                      states={states}
+                      loading={loading}
+                      onSubmit={onSubmit}
+                    />
+                  ) : (
+                    <SupplierSubscribeForm
+                      cities={cities}
+                      states={states}
+                      supplyCategories={supplyCategories}
+                      loading={loading}
+                      onSubmit={onSubmit}
+                    />
+                  )}
+                </Card.Body>
+              </Card>
+            </RowWithOffsetCol>
           </SectionWithContainer>
         </motion.div>
       </MainLayout>

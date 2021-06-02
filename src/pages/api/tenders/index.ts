@@ -2,117 +2,80 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 
 import moment from 'moment';
-import pool from 'utils/db';
+import { Op } from 'sequelize';
 
 import authUserMiddleware from '../../../middlewares/authUserMiddleware';
-
-const createTender = async (
-  Buyer_ID: number,
-  Description: string,
-  Title: string,
-  HeadingImage: string,
-  State_ID: number,
-  City_ID: number,
-  Offer: number,
-  ClosingAt: Date,
-) =>
-  pool.query(
-    `INSERT INTO "Tender" ("Buyer_ID", "ClosingAt", "Description", "State_ID", "City_ID", "Title", "HeadingImage", "Offer", "CreatedAt", "PublishedAt")
-      VALUES ('${Buyer_ID}', '${ClosingAt}', '${Description}', '${State_ID}', '${City_ID}', '${Title}', '${HeadingImage}', '${Offer}', '${moment().format(
-      'YYYY-MM-DD',
-    )}', '${moment().format('YYYY-MM-DD')}')
-      RETURNING "ID";`,
-  );
-
-const createTenderAttachment = async (ID: number, URL: string) =>
-  pool.query(
-    `INSERT INTO "TenderAttachment" ("Tender_ID", "URL")
-   VALUES ('${ID}', '${URL}')
-   RETURNING "ID";
-   `,
-  );
+import { withErrorHandler } from '../../../middlewares/withErrorHandler';
+import { Tender, TenderAttachment } from '../../../sequelize/models';
 
 const handler = nextConnect()
   .use(authUserMiddleware())
-  .get((req: NextApiRequest, res: NextApiResponse) => {
-    pool
-      .query(`SELECT * FROM "Tender"`)
-      .then((result: any) => {
-        if (result.rowCount > 0)
-          return res.status(200).json({ success: true, items: result.rows });
-        return res.status(500).json({
-          success: false,
-          message: 'Something wrong when getting Tenders',
-        });
-      })
-      .catch((err: any) => {
-        return res.status(500).json({
-          success: false,
-          message: 'Something wrong with Tenders',
-          err,
-        });
-      });
-  })
-  .post(async (req: NextApiRequest, res: NextApiResponse) => {
-    const {
-      Description,
-      Title,
-      State_ID,
-      City_ID,
-      Offer,
-      ClosingAt,
-    } = req.body;
-    const Buyer_ID = req.user?.Buyer_ID;
-    const { HeadingImage } = req.body || '';
-    let tenderResult = null;
+  .get(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      if (!Buyer_ID) {
-        throw new Error('The User must be an Buyer!');
-      }
-      tenderResult = await createTender(
-        Buyer_ID,
-        Description,
-        Title,
-        HeadingImage,
-        State_ID,
-        City_ID,
-        Offer,
-        ClosingAt,
-      );
+      const tenders = await Tender.findAll({
+        where: {
+          ClosingAt: { [Op.gt]: moment.utc() },
+        },
+        include: [{ all: true, nested: true }],
+      });
+
+      return res.status(200).json({
+        success: true,
+        items: tenders,
+      });
     } catch (err) {
       return res.status(500).json({
         success: false,
-        message: 'Something wrong when creating tender',
+        message: 'Something wrong with Tenders',
         err,
       });
     }
+  })
+  .post(
+    withErrorHandler(async (req: NextApiRequest, res: NextApiResponse) => {
+      // const tender = await Tender.create({
+      //   Title: 'wdasdasdsd',
+      //   ClosingAt: new Date('2026-03-04'),
+      //   Description:
+      //     '<h1>asdsadasdasdfsadfjdshafjksa</h1>\n' +
+      //     '<p>as</p>\n<p>dsdasdasdsjjskdajadls</p>',
+      //   City_ID: 1,
+      //   State_ID: 1,
+      // });
 
-    const { TenderAttachment: TenderAttachments } = req.body;
-    const TenderID = tenderResult.rows[0].ID;
+      const {
+        TenderAttachments,
+        ClosingAt,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        SupplyCategories,
+        ...restProps
+      } = req.body;
+      const Buyer_ID = req.user?.Buyer_ID;
+      if (!Buyer_ID) {
+        throw new Error('Just Buyers can create Tenders!');
+      }
+      const tender = await Tender.create({
+        ...restProps,
+        ClosingAt: new Date(ClosingAt),
+        Buyer_ID,
+      });
 
-    if (TenderAttachments !== undefined && TenderAttachments.length > 0) {
-      try {
+      if (TenderAttachments !== undefined && TenderAttachments?.length > 0) {
         await Promise.all(
           TenderAttachments.map(async (attachment: any) => {
-            return createTenderAttachment(TenderID, attachment.URL);
+            return TenderAttachment.create({
+              ...attachment,
+              Tender_ID: tender.ID,
+            });
           }),
         );
-      } catch (err) {
-        return res.status(500).json({
-          success: false,
-          message: 'Something wrong when creating attachment',
-          err,
-        });
       }
-    }
 
-    return res.status(200).json({
-      success: true,
-      data: {
-        ...req.body,
-        ID: TenderID,
-      },
-    });
-  });
+      return res.status(200).json({
+        success: true,
+        data: tender,
+      });
+    }),
+  );
 
 export default handler;

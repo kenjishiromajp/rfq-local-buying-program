@@ -21,54 +21,62 @@ export type UserStatic = typeof Model & {
 };
 
 export function UserFactory(sequelize: Sequelize): UserStatic {
-  return <UserStatic>sequelize.define('User', {
-    ID: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  return <UserStatic>sequelize.define(
+    'User',
+    {
+      ID: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      Name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Supplier_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      Buyer_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      DeletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
+      },
+      CreatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      UpdatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      Token: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      RefreshToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
-    Name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      freezeTableName: true,
+      createdAt: 'CreatedAt',
+      updatedAt: 'UpdatedAt',
     },
-    Email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    Password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    Supplier_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    Buyer_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    DeletedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
-    },
-    CreatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW,
-    },
-    UpdatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    Token: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    RefreshToken: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-  });
+  );
 }

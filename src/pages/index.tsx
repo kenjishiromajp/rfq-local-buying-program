@@ -55,8 +55,8 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const HomePage: FC<IProps> = ({
-  suppliers,
-  tenders,
+  suppliers = [],
+  tenders = [],
   statusCode = null,
   host = '',
 }) => {

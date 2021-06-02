@@ -41,6 +41,7 @@
     "@sentry/browser": "^6.2.5",
     "@sentry/node": "^6.2.5",
     "@sentry/webpack-plugin": "^1.15.0",
+    "@tinymce/tinymce-react": "^3.12.6",
     "@zeit/next-source-maps": "0.0.4-canary.1",
     "apicache": "^1.6.2",
     "axios": "^0.21.1",

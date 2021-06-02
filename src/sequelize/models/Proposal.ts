@@ -21,46 +21,54 @@ export type ProposalStatic = typeof Model & {
 };
 
 export function ProposalFactory(sequelize: Sequelize): ProposalStatic {
-  return <ProposalStatic>sequelize.define('Proposal', {
-    ID: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  return <ProposalStatic>sequelize.define(
+    'Proposal',
+    {
+      ID: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      Tender_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      Supplier_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      Description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      ApprovedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      Offer: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+      },
+      CreatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
+      },
+      UpdatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: DataTypes.NOW,
+      },
+      DeletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
-    Tender_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
+    {
+      freezeTableName: true,
+      createdAt: 'CreatedAt',
+      updatedAt: 'UpdatedAt',
     },
-    Supplier_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    Description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    ApprovedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    Offer: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-    },
-    CreatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
-    },
-    UpdatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: DataTypes.NOW,
-    },
-    DeletedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-  });
+  );
 }

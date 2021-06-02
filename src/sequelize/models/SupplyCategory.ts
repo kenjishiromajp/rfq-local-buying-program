@@ -21,24 +21,31 @@ export type SupplyCategoryStatic = typeof Model & {
 export function SupplyCategoryFactory(
   sequelize: Sequelize,
 ): SupplyCategoryStatic {
-  return <SupplyCategoryStatic>sequelize.define('SupplyCategory', {
-    ID: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  return <SupplyCategoryStatic>sequelize.define(
+    'SupplyCategory',
+    {
+      ID: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      Name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      SupplyCategory_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
-    Name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      freezeTableName: true,
+      timestamps: false,
     },
-    Description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    SupplyCategory_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-  });
+  );
 }

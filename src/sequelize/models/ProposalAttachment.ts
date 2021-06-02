@@ -20,20 +20,27 @@ export type ProposalAttachmentStatic = typeof Model & {
 export function ProposalAttachmentFactory(
   sequelize: Sequelize,
 ): ProposalAttachmentStatic {
-  return <ProposalAttachmentStatic>sequelize.define('ProposalAttachment', {
-    ID: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+  return <ProposalAttachmentStatic>sequelize.define(
+    'ProposalAttachment',
+    {
+      ID: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      URL: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Proposal_ID: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
     },
-    URL: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    {
+      freezeTableName: true,
+      timestamps: false,
     },
-    Proposal_ID: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-  });
+  );
 }

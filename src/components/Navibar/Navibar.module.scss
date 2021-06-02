@@ -1,0 +1,16 @@
+.link {
+  margin-left: 10px;
+}
+.navbar{
+  padding-top: 20px;
+  &::before{
+    content: '';
+    display: block;
+    height: 10px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--primary);
+   }
+}
