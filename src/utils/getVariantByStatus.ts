@@ -1,4 +1,4 @@
-import {ProposalStatus} from 'models/ProposalStatus';
+import { ProposalStatus } from 'models/ProposalStatus';
 
 function getVariantByStatus(statusProposal: ProposalStatus) {
   switch (statusProposal) {

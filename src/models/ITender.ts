@@ -1,9 +1,9 @@
 import { IBuyer } from 'models/IBuyer';
 import { ICity } from 'models/ICity';
+import { IProposal } from 'models/IProposal';
 import { IState } from 'models/IState';
 import { ISupplyCategory } from 'models/ISupplyCategory';
 import { ITenderProduct } from 'models/ITenderProduct';
-import {IProposal} from 'models/IProposal';
 
 export interface ITender {
   ID: number;

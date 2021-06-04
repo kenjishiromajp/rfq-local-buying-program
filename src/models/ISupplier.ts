@@ -2,7 +2,7 @@ import { ICity } from 'models/ICity';
 import { IState } from 'models/IState';
 import { ISupplyCategory } from 'models/ISupplyCategory';
 
-import { ITender } from './ITender';
+import type { ITender } from './ITender';
 
 export interface ISupplier {
   ID: number;

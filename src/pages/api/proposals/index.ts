@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 
-import moment from 'moment';
+// import moment from 'moment';
 import pool from 'utils/db';
 
 import authUserMiddleware from '../../../middlewares/authUserMiddleware';
@@ -9,23 +9,23 @@ import onlySuppliersMiddleware from '../../../middlewares/onlySuppliersMiddlewar
 import { withErrorHandler } from '../../../middlewares/withErrorHandler';
 import {
   Proposal,
-  ProposalTenderProduct,
+  // ProposalTenderProduct,
   ProposalTenderProducts,
 } from '../../../sequelize/models';
 
-const createProposal = async (
-  Tender_ID: number,
-  Supplier_ID: number,
-  Description: string,
-  Offer: any,
-) =>
-  pool.query(
-    `INSERT INTO "Proposal" ("Tender_ID", "Supplier_ID", "Description", "Offer", "CreatedAt")
-     VALUES ('${Tender_ID}', '${Supplier_ID}', '${Description}', ${Offer}, '${moment().format(
-      'YYYY-MM-DD',
-    )}')
-     RETURNING "ID"`,
-  );
+// const createProposal = async (
+//   Tender_ID: number,
+//   Supplier_ID: number,
+//   Description: string,
+//   Offer: any,
+// ) =>
+//   pool.query(
+//     `INSERT INTO "Proposal" ("Tender_ID", "Supplier_ID", "Description", "Offer", "CreatedAt")
+//      VALUES ('${Tender_ID}', '${Supplier_ID}', '${Description}', ${Offer}, '${moment().format(
+//       'YYYY-MM-DD',
+//     )}')
+//      RETURNING "ID"`,
+//   );
 
 const createProposalAttachment = async (ID: number, URL: string) =>
   pool.query(

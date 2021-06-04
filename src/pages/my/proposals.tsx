@@ -2,25 +2,25 @@ import { GetStaticProps } from 'next';
 import ErrorPage from 'next/error';
 import Head from 'next/head';
 import Link from 'next/link';
-import {FC, useEffect, useMemo, useState} from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { Badge, Button, ButtonGroup, Col, Row, Table } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 import { motion } from 'framer-motion';
 import moment from 'moment';
 import { $enum } from 'ts-enum-util';
 import getStatusProposal from 'utils/getStatusProposal';
+import getVariantByStatus from 'utils/getVariantByStatus';
+import realRequest from 'utils/realRequest';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
 import request from 'utils/request';
 
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
+import { useAuth } from 'contexts/authContext';
 import { IProposal } from 'models/IProposal';
 import { ProposalStatus } from 'models/ProposalStatus';
 
 import MainLayout from '../../layouts/MainLayout';
-import {useAuth} from 'contexts/authContext';
-import realRequest from 'utils/realRequest';
-import {toast} from 'react-toastify';
-import getVariantByStatus from 'utils/getVariantByStatus';
 
 interface IProps {
   statusCode?: number;
@@ -48,10 +48,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 };
 
-const MyProposalsPage: FC<IProps> = ({
-  statusCode = null,
-  host = '',
-}) => {
+const MyProposalsPage: FC<IProps> = ({ statusCode = null, host = '' }) => {
   const { user } = useAuth();
   const [proposalFilter, setProposalFilter] = useState<ProposalStatus>();
   const [proposals, setProposals] = useState<IProposal[]>([]);

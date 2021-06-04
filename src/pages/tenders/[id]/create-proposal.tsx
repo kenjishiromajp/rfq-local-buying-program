@@ -28,7 +28,9 @@ interface IProps {
 export const getStaticPaths = async () => {
   const {
     data: { items: tenders },
-  } = await realRequest.get<{ items: ITender[] }>('/api/tenders');
+  } = await realRequest.get<{ items: ITender[] }>(
+    'http://localhost:3000/api/tenders',
+  );
   return {
     paths: tenders.map(tender => ({
       params: { id: tender.ID.toString() },
@@ -42,7 +44,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const {
       data: { data: tender },
     } = await realRequest.get<{ data: ITender }>(
-      `/api/tenders/${params?.id || '0'}`,
+      `http://localhost:3000/api/tenders/${params?.id || '0'}`,
     );
     return {
       props: {
@@ -200,8 +202,8 @@ const CreateProposalPage: FC<IProps> = ({
                             {...register(
                               `ProposalTenderProducts.${index}.TenderProduct_ID`,
                               {
-                                valueAsNumber: true
-                              }
+                                valueAsNumber: true,
+                              },
                             )}
                             value={tenderProduct.ID}
                           />

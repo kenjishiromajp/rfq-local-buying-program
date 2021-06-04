@@ -4,6 +4,7 @@ import { BuyerFactory } from './Buyer';
 import { CityFactory } from './City';
 import { ProposalFactory } from './Proposal';
 import { ProposalAttachmentFactory } from './ProposalAttachment';
+import { ProposalTenderProductFactory } from './ProposalTenderProduct';
 import { StateFactory } from './State';
 import { SupplierFactory } from './Supplier';
 import { SupplyCategoryFactory } from './SupplyCategory';
@@ -11,7 +12,6 @@ import { TenderFactory } from './Tender';
 import { TenderAttachmentFactory } from './TenderAttachment';
 import { TenderProductFactory } from './TenderProduct';
 import { UserFactory } from './User';
-import {ProposalTenderProductFactory} from './ProposalTenderProduct';
 // import {userFactory} from "./user-model";
 // import {skillsFactory} from "./other-model";
 

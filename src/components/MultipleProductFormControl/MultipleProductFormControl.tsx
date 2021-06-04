@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import {Button, Col, Form, Row} from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 
 // eslint-disable-next-line import/no-unresolved
 import { Except } from 'type-fest';

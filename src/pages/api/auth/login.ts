@@ -13,7 +13,7 @@ const storeTokens = (
   ID: number,
 ) =>
   pool
-    .query('UPDATE "User" SET Token=$1, RefreshToken=$2 WHERE ID=$3', [
+    .query('UPDATE "User" SET "Token"=$1, "RefreshToken"=$2 WHERE "ID"=$3', [
       accessToken,
       refreshToken,
       ID,

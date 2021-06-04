@@ -3,7 +3,7 @@ import ErrorPage from 'next/error';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import {FC, useEffect, useMemo, useState} from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import {
   Badge,
   Button,
@@ -14,6 +14,7 @@ import {
   Table,
   Tabs,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 import { motion } from 'framer-motion';
 import moment from 'moment';
@@ -30,7 +31,6 @@ import { IProposal } from 'models/IProposal';
 import { ITender } from 'models/ITender';
 
 import MainLayout from '../../../layouts/MainLayout';
-import {toast} from 'react-toastify';
 
 interface IProps {
   statusCode?: number;
@@ -41,7 +41,9 @@ interface IProps {
 export const getStaticPaths = async () => {
   const {
     data: { items: tenders },
-  } = await realRequest.get<{ items: ITender[] }>('/api/tenders');
+  } = await realRequest.get<{ items: ITender[] }>(
+    'http://localhost:3000/api/tenders',
+  );
   return {
     paths: tenders.map(tender => ({
       params: { id: tender.ID.toString() },
@@ -55,7 +57,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const {
       data: { data: tender },
     } = await realRequest.get<{ data: ITender[] }>(
-      `/api/tenders/${params?.id || '0'}`,
+      `http://localhost:3000/api/tenders/${params?.id || '0'}`,
     );
     return {
       props: {
@@ -224,7 +226,10 @@ const TenderDetailPage: FC<IProps> = ({
               </Row>
               <hr />
               {user?.Buyer_ID === tender.Buyer_ID ? (
-                <Tabs defaultActiveKey="description" id="uncontrolled-tab-example">
+                <Tabs
+                  defaultActiveKey="description"
+                  id="uncontrolled-tab-example"
+                >
                   <Tab eventKey="description" title="Description">
                     {description}
                   </Tab>

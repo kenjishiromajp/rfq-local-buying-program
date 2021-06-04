@@ -1,7 +1,7 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 
+import { Proposal } from './Proposal';
 import { TenderProduct } from './TenderProduct';
-import {Proposal} from './Proposal';
 
 export interface TenderAttributes {
   ID?: number;

@@ -1,6 +1,6 @@
 import { IProposalTenderProduct } from 'models/IProposalTenderProduct';
-import { ISupplier } from 'models/ISupplier';
-import { ITender } from 'models/ITender';
+import type { ISupplier } from 'models/ISupplier';
+import type { ITender } from 'models/ITender';
 
 export interface IProposal {
   ID: number;
