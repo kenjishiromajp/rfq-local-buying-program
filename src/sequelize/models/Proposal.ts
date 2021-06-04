@@ -48,7 +48,7 @@ export function ProposalFactory(sequelize: Sequelize): ProposalStatic {
       },
       Offer: {
         type: DataTypes.DECIMAL,
-        allowNull: false,
+        allowNull: true,
       },
       CreatedAt: {
         type: DataTypes.DATE,

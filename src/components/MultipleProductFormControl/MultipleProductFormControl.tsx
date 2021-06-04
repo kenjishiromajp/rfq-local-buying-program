@@ -15,14 +15,16 @@ interface IProps {
 const MultipleProductFormControl: FC<IProps> = ({ value = [], onChange }) => {
   return (
     <div>
-      <Button
-        size="sm"
-        onClick={() => {
-          onChange([...value, { Name: '', Quantity: 1 }]);
-        }}
-      >
-        Add More Product
-      </Button>
+      <div className="d-flex justify-content-end">
+        <Button
+          size="sm"
+          onClick={() => {
+            onChange([...value, { Name: '', Quantity: 1 }]);
+          }}
+        >
+          Add More Product
+        </Button>
+      </div>
       {(value || []).map((tenderProduct, index) => {
         return (
           // eslint-disable-next-line react/jsx-key

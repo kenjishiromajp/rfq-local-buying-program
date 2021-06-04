@@ -1,3 +1,4 @@
+import { IProposalTenderProduct } from 'models/IProposalTenderProduct';
 import { ISupplier } from 'models/ISupplier';
 import { ITender } from 'models/ITender';
 
@@ -13,4 +14,5 @@ export interface IProposal {
   CreatedAt: string;
   UpdatedAt?: string;
   DeletedAt?: string;
+  ProposalTenderProducts?: IProposalTenderProduct[];
 }

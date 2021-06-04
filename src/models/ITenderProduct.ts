@@ -1,4 +1,4 @@
-import { ITender } from 'models/ITender';
+import type { ITender } from 'models/ITender';
 
 export interface ITenderProduct {
   ID: number;

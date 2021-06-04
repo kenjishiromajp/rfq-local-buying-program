@@ -3,20 +3,34 @@ import ErrorPage from 'next/error';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
+import {FC, useEffect, useMemo, useState} from 'react';
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Row,
+  Tab,
+  Table,
+  Tabs,
+} from 'react-bootstrap';
 
 import { motion } from 'framer-motion';
 import moment from 'moment';
+import getStatusProposal from 'utils/getStatusProposal';
+import getVariantByStatus from 'utils/getVariantByStatus';
 import realRequest from 'utils/realRequest';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
 
 import Navbar from 'components/Navibar/NaviBar';
+import RowWithOffsetCol from 'components/RowWithOffsetCol/RowWithOffsetCol';
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
 import { useAuth } from 'contexts/authContext';
+import { IProposal } from 'models/IProposal';
 import { ITender } from 'models/ITender';
 
 import MainLayout from '../../../layouts/MainLayout';
+import {toast} from 'react-toastify';
 
 interface IProps {
   statusCode?: number;
@@ -63,14 +77,65 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 const TenderDetailPage: FC<IProps> = ({
   statusCode = null,
   host = '',
-  tender,
+  tender: initialTender,
 }) => {
   const { query, isFallback } = useRouter();
   const { user } = useAuth();
 
+  const [tender, setTender] = useState<ITender>(initialTender);
+
+  const description = useMemo(
+    () => (
+      <>
+        <div
+          className="pt-4"
+          dangerouslySetInnerHTML={{ __html: tender.Description }}
+        />
+        <div>
+          <hr />
+          <h4 className="mb-3 font-weight-bold">Products Required</h4>
+          <ul className="pl-0">
+            {(tender.TenderProducts || []).map(tenderProduct => (
+              <li key={tenderProduct.ID} className="mb-3">
+                <Card body>
+                  <Row className="align-items-center justify-content-between">
+                    <Col>
+                      <h3 className="m-0">{tenderProduct.Name}</h3>
+                    </Col>
+                    <Col md="auto">
+                      <strong className="mr-2">Quantity:</strong>
+                      <span>{tenderProduct.Quantity}</span>
+                    </Col>
+                  </Row>
+                </Card>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </>
+    ),
+    [tender.Description, tender.TenderProducts],
+  );
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (user?.Buyer_ID) {
+          const {
+            data: { data: responseTender },
+          } = await realRequest(`/api/tenders/${query.id}`);
+          setTender(responseTender);
+        }
+      } catch {
+        toast.error('There was an error.');
+      }
+    })();
+  }, [query.id, user]);
+
   if (isFallback) {
     return <h2>...Loading</h2>;
   }
+
   if (statusCode) {
     return <ErrorPage statusCode={statusCode} />;
   }
@@ -118,45 +183,133 @@ const TenderDetailPage: FC<IProps> = ({
             </SectionWithContainer>
           </div>
           <SectionWithContainer>
-            <Row className="justify-content-between mb-4">
-              <Col className="flex-grow-0">
-                <h1 className="mb-0">Description</h1>
-              </Col>
-              <Col md="auto">
-                <Row>
-                  <Col md="auto">
-                    <Button size="sm" variant="outline-info">
-                      Attachments
-                    </Button>
-                  </Col>
-                  {tender.Buyer?.User?.Email && (
+            <RowWithOffsetCol>
+              <Row className="justify-content-between mb-4">
+                <Col className="flex-grow-0">
+                  <h4 className="font-weight-bold">Description</h4>
+                </Col>
+                <Col md="auto">
+                  <Row>
                     <Col md="auto">
-                      <Button
-                        size="sm"
-                        variant="outline-primary"
-                        as="a"
-                        href={`mailto:${tender.Buyer.User.Email}`}
-                      >
-                        Contact the company
+                      <Button size="sm" variant="outline-info">
+                        Attachments
                       </Button>
                     </Col>
-                  )}
-                  {user?.Supplier_ID && (
-                    <Col md="auto">
-                      <Link
-                        href={`/tenders/${query.id}/create-proposal`}
-                        passHref
-                      >
-                        <Button as="a" size="sm" variant="success">
-                          Submit a quote
+                    {tender.Buyer?.User?.Email && (
+                      <Col md="auto">
+                        <Button
+                          size="sm"
+                          variant="outline-primary"
+                          as="a"
+                          href={`mailto:${tender.Buyer.User.Email}`}
+                        >
+                          Contact the company
                         </Button>
-                      </Link>
-                    </Col>
-                  )}
-                </Row>
-              </Col>
-            </Row>
-            <div dangerouslySetInnerHTML={{ __html: tender.Description }} />
+                      </Col>
+                    )}
+                    {user?.Supplier_ID && (
+                      <Col md="auto">
+                        <Link
+                          href={`/tenders/${query.id}/create-proposal`}
+                          passHref
+                        >
+                          <Button as="a" size="sm" variant="success">
+                            Submit a quote
+                          </Button>
+                        </Link>
+                      </Col>
+                    )}
+                  </Row>
+                </Col>
+              </Row>
+              <hr />
+              {user?.Buyer_ID === tender.Buyer_ID ? (
+                <Tabs defaultActiveKey="description" id="uncontrolled-tab-example">
+                  <Tab eventKey="description" title="Description">
+                    {description}
+                  </Tab>
+                  <Tab eventKey="proposals" title="Proposals">
+                    <div className="pt-4">
+                      <Table borderless>
+                        <thead>
+                          <th>COMPANY NAME</th>
+                          {(tender.TenderProducts || [])
+                            .sort(({ ID }) => ID)
+                            .map(tenderProduct => (
+                              <th key={tenderProduct.ID}>
+                                {tenderProduct.Name} PRICE
+                              </th>
+                            ))}
+                          <th>SUBMITTED AT</th>
+                          <th />
+                        </thead>
+                        <tbody>
+                          {(tender.Proposals || []).map(
+                            (proposal: IProposal) => {
+                              const statusProposal = getStatusProposal(
+                                proposal,
+                              );
+                              const variantByStatus = getVariantByStatus(
+                                statusProposal,
+                              );
+                              return (
+                                <tr key={proposal.ID}>
+                                  <td>
+                                    <Link
+                                      href={`/proposals/${proposal.ID}`}
+                                      passHref
+                                    >
+                                      <a className="d-flex align-items-center">
+                                        <img
+                                          width={70}
+                                          className="mr-2 d-flex img-thumbnail"
+                                          src={proposal.Tender?.Buyer?.Logo}
+                                          alt={proposal.Tender?.Buyer?.Name}
+                                        />
+                                        {proposal.Tender?.Buyer?.Name} -{' '}
+                                        {proposal.Tender?.Title}
+                                      </a>
+                                    </Link>
+                                  </td>
+                                  {(proposal.ProposalTenderProducts || [])
+                                    .sort(
+                                      ({ TenderProduct_ID }) =>
+                                        TenderProduct_ID,
+                                    )
+                                    .map(proposalTenderProduct => (
+                                      <td key={proposalTenderProduct.ID}>
+                                        {proposalTenderProduct.Offer}
+                                      </td>
+                                    ))}
+                                  <td>
+                                    {moment(proposal.CreatedAt).format(
+                                      'DD/MM/YYYY',
+                                    )}
+                                  </td>
+                                  <td>
+                                    <Badge
+                                      variant={`outline-${variantByStatus}`}
+                                    >
+                                      <span
+                                        className={`text-${variantByStatus}`}
+                                      >
+                                        {statusProposal}
+                                      </span>
+                                    </Badge>
+                                  </td>
+                                </tr>
+                              );
+                            },
+                          )}
+                        </tbody>
+                      </Table>
+                    </div>
+                  </Tab>
+                </Tabs>
+              ) : (
+                description
+              )}
+            </RowWithOffsetCol>
           </SectionWithContainer>
         </motion.div>
       </MainLayout>

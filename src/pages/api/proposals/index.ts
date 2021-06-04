@@ -5,6 +5,13 @@ import moment from 'moment';
 import pool from 'utils/db';
 
 import authUserMiddleware from '../../../middlewares/authUserMiddleware';
+import onlySuppliersMiddleware from '../../../middlewares/onlySuppliersMiddleware';
+import { withErrorHandler } from '../../../middlewares/withErrorHandler';
+import {
+  Proposal,
+  ProposalTenderProduct,
+  ProposalTenderProducts,
+} from '../../../sequelize/models';
 
 const createProposal = async (
   Tender_ID: number,
@@ -28,49 +35,39 @@ const createProposalAttachment = async (ID: number, URL: string) =>
 
 const handler = nextConnect()
   .use(authUserMiddleware())
-  .post(async (req: NextApiRequest, res: NextApiResponse) => {
-    const { Description, Offer, Tender_ID } = req.body;
-    const Supplier_ID = req.user?.Supplier_ID;
-    let result = null;
-    try {
-      if (!Supplier_ID) {
-        throw new Error('Only Supplier can add a proposal!');
-      }
-      result = await createProposal(Tender_ID, Supplier_ID, Description, Offer);
-    } catch (err) {
-      return res.status(500).json({
-        success: false,
-        message: 'Something wrong when creating Proposal',
-        err,
+  .use(onlySuppliersMiddleware())
+  .post(
+    withErrorHandler(async (req: NextApiRequest, res: NextApiResponse) => {
+      const { ProposalAttachments, ...restProps } = req.body;
+      const proposal = await Proposal.create(restProps, {
+        include: [
+          {
+            association: ProposalTenderProducts,
+            as: 'categories',
+          },
+        ],
       });
-    }
-
-    const ProposalID = result.rows[0].ID;
-    const { ProposalAttachment: ProposalAttachments } = req.body;
-
-    if (ProposalAttachments !== undefined && ProposalAttachments.length > 0) {
-      try {
-        await Promise.all(
-          ProposalAttachments.map(async (attachment: any) => {
-            return createProposalAttachment(ProposalID, attachment.URL);
-          }),
-        );
-      } catch (err) {
-        return res.status(500).json({
-          success: false,
-          message: 'Something wrong when creating attachment',
-          err,
-        });
+      if (ProposalAttachments !== undefined && ProposalAttachments.length > 0) {
+        try {
+          await Promise.all(
+            ProposalAttachments.map(async (attachment: any) => {
+              return createProposalAttachment(proposal.ID, attachment.URL);
+            }),
+          );
+        } catch (err) {
+          return res.status(500).json({
+            success: false,
+            message: 'Something wrong when creating attachment',
+            err,
+          });
+        }
       }
-    }
 
-    return res.status(200).json({
-      success: true,
-      data: {
-        ...req.body,
-        ID: ProposalID,
-      },
-    });
-  });
+      return res.status(200).json({
+        success: true,
+        data: proposal,
+      });
+    }),
+  );
 
 export default handler;

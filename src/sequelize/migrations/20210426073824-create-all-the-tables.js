@@ -322,7 +322,7 @@ module.exports = {
           },
           Offer: {
             type: Sequelize.DECIMAL,
-            allowNull: false,
+            allowNull: true,
           },
           CreatedAt: {
             type: Sequelize.DATE,

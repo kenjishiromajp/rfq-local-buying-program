@@ -11,6 +11,7 @@ import {
   TenderAttachment,
   TenderProduct,
 } from '../../../sequelize/models';
+import onlyBuyersMiddleware from '../../../middlewares/onlyBuyersMiddleware';
 
 const handler = nextConnect()
   .use(authUserMiddleware())
@@ -35,6 +36,7 @@ const handler = nextConnect()
       });
     }
   })
+  .use(onlyBuyersMiddleware())
   .post(
     withErrorHandler(async (req: NextApiRequest, res: NextApiResponse) => {
       const {

@@ -3,6 +3,7 @@ import { ICity } from 'models/ICity';
 import { IState } from 'models/IState';
 import { ISupplyCategory } from 'models/ISupplyCategory';
 import { ITenderProduct } from 'models/ITenderProduct';
+import {IProposal} from 'models/IProposal';
 
 export interface ITender {
   ID: number;
@@ -23,4 +24,5 @@ export interface ITender {
   UpdatedAt?: string;
   SupplyCategories?: ISupplyCategory[];
   TenderProducts?: ITenderProduct[];
+  Proposals?: IProposal[];
 }

@@ -13,6 +13,7 @@ import realRequest from 'utils/realRequest';
 import renderCommonMetaTags from 'utils/renderCommonMetaTags';
 
 import FormControlFile from 'components/FormControlFile/FormControlFile';
+import MultipleProductFormControl from 'components/MultipleProductFormControl/MultipleProductFormControl';
 import PrivatePageContext from 'components/PrivatePageContext/PrivatePageContext';
 import RowWithOffsetCol from 'components/RowWithOffsetCol/RowWithOffsetCol';
 import SectionWithContainer from 'components/SectionWithContainer/SectionWithContainer';
@@ -22,7 +23,6 @@ import { IState } from 'models/IState';
 import { ISupplyCategory } from 'models/ISupplyCategory';
 
 import MainLayout from '../../layouts/MainLayout';
-import MultipleProductFormControl from 'components/MultipleProductFormControl/MultipleProductFormControl';
 
 interface IProps {
   statusCode?: number;
@@ -87,7 +87,11 @@ const CreateTenderPage: FC<IProps> = ({
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      TenderProducts: [{ Name: '', Quantity: 1 }],
+    },
+  });
   if (statusCode) {
     return <ErrorPage statusCode={statusCode} />;
   }
@@ -245,7 +249,7 @@ const CreateTenderPage: FC<IProps> = ({
                             }}
                             init={{
                               zIndex: 0,
-                              height: 500,
+                              height: 300,
                               menubar: false,
                               content_style:
                                 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
@@ -255,8 +259,8 @@ const CreateTenderPage: FC<IProps> = ({
                       />
                     </Form.Group>
                     <Form.Group>
-                      <Form.Label>
-                        Can you add the products?
+                      <Form.Label className="mb-n3 mt-4 d-block">
+                        Which products do you need?
                       </Form.Label>
                       <Controller
                         name="TenderProducts"

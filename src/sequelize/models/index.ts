@@ -116,13 +116,13 @@ SupplyCategory.belongsTo(SupplyCategory, {
 
 // Proposal
 Proposal.belongsTo(Tender, {
-  foreignKey: 'ID',
+  foreignKey: 'Tender_ID',
   as: 'Tender',
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 Proposal.belongsTo(Supplier, {
-  foreignKey: 'ID',
+  foreignKey: 'Supplier_ID',
   as: 'Supplier',
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
@@ -136,7 +136,7 @@ Proposal.hasMany(ProposalAttachment, {
   onUpdate: 'CASCADE',
 });
 
-Proposal.hasMany(ProposalTenderProduct, {
+export const ProposalTenderProducts = Proposal.hasMany(ProposalTenderProduct, {
   sourceKey: 'ID',
   foreignKey: 'Proposal_ID',
   as: 'ProposalTenderProducts',
@@ -226,10 +226,25 @@ Tender.hasMany(TenderProduct, {
   onUpdate: 'CASCADE',
 });
 
+Tender.hasMany(Proposal, {
+  sourceKey: 'ID',
+  foreignKey: 'Tender_ID',
+  as: 'Proposals',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
 SupplyCategory.belongsToMany(Supplier, {
   through: 'Supplier_SupplyCategory',
   foreignKey: 'SupplyCategory_ID',
   timestamps: false,
+});
+
+ProposalTenderProduct.belongsTo(TenderProduct, {
+  foreignKey: 'TenderProduct_ID',
+  as: 'TenderProduct',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
 });
 
 // or instead of that, maybe many users have many skills

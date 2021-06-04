@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 import ErrorPage from 'next/error';
 import Head from 'next/head';
 import Link from 'next/link';
-import { FC, useMemo, useState } from 'react';
+import {FC, useEffect, useMemo, useState} from 'react';
 import { Badge, Button, ButtonGroup, Col, Row, Table } from 'react-bootstrap';
 
 import { motion } from 'framer-motion';
@@ -17,6 +17,10 @@ import { IProposal } from 'models/IProposal';
 import { ProposalStatus } from 'models/ProposalStatus';
 
 import MainLayout from '../../layouts/MainLayout';
+import {useAuth} from 'contexts/authContext';
+import realRequest from 'utils/realRequest';
+import {toast} from 'react-toastify';
+import getVariantByStatus from 'utils/getVariantByStatus';
 
 interface IProps {
   statusCode?: number;
@@ -44,25 +48,13 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 };
 
-function getVariantByStatus(statusProposal: ProposalStatus) {
-  switch (statusProposal) {
-    case ProposalStatus.accepted:
-      return 'success';
-    case ProposalStatus.denied:
-      return 'danger';
-    case ProposalStatus.pending:
-      return 'info';
-    default:
-      return undefined;
-  }
-}
-
 const MyProposalsPage: FC<IProps> = ({
-  proposals,
   statusCode = null,
   host = '',
 }) => {
+  const { user } = useAuth();
   const [proposalFilter, setProposalFilter] = useState<ProposalStatus>();
+  const [proposals, setProposals] = useState<IProposal[]>([]);
   const filteredProposals = useMemo(() => {
     if (!proposalFilter) {
       return proposals;
@@ -71,6 +63,21 @@ const MyProposalsPage: FC<IProps> = ({
       return getStatusProposal(proposal) === proposalFilter;
     });
   }, [proposalFilter, proposals]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (user?.Supplier_ID) {
+          const {
+            data: { items: responseTenders },
+          } = await realRequest(`/api/my/proposals`);
+          setProposals(responseTenders);
+        }
+      } catch {
+        toast.error('There was an error.');
+      }
+    })();
+  }, [user]);
 
   if (statusCode) {
     return <ErrorPage statusCode={statusCode} />;

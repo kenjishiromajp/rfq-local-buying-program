@@ -3,7 +3,7 @@ import ErrorPage from 'next/error';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 
 import { motion } from 'framer-motion';
 import moment from 'moment';
@@ -135,6 +135,27 @@ const ProposalDetailPage: FC<IProps> = ({
           <SectionWithContainer>
             <h2>Description</h2>
             <div dangerouslySetInnerHTML={{ __html: proposal.Description }} />
+            <ul className="pl-0">
+              {(proposal.ProposalTenderProducts || []).map(
+                proposalTenderProduct => (
+                  <li key={proposalTenderProduct.ID} className="mb-3">
+                    <Card body>
+                      <Row className="align-items-center justify-content-between">
+                        <Col>
+                          <h3 className="m-0">
+                            {proposalTenderProduct.TenderProduct?.Name}
+                          </h3>
+                        </Col>
+                        <Col md="auto">
+                          <strong className="mr-2">Offer:</strong>
+                          <span>{proposalTenderProduct.Offer}</span>
+                        </Col>
+                      </Row>
+                    </Card>
+                  </li>
+                ),
+              )}
+            </ul>
           </SectionWithContainer>
         </motion.div>
       </MainLayout>

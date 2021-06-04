@@ -162,7 +162,7 @@ const CreateProposalPage: FC<IProps> = ({
                             }}
                             init={{
                               zIndex: 0,
-                              height: 500,
+                              height: 300,
                               menubar: false,
                               content_style:
                                 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
@@ -174,13 +174,40 @@ const CreateProposalPage: FC<IProps> = ({
                         <span className="text-error">{errors.Description}</span>
                       )}
                     </Form.Group>
-                    <Form.Group>
-                      <Form.Label>How much is going to cost?</Form.Label>
-                      <Form.Control type="number" {...register('Offer')} />
-                      {errors.Offer && (
-                        <span className="text-error">{errors.Offer}</span>
-                      )}
-                    </Form.Group>
+
+                    {tender.TenderProducts?.map((tenderProduct, index) => (
+                      <Form.Group key={tenderProduct.ID}>
+                        <Card body>
+                          <Row className="align-items-center justify-content-between">
+                            <Col xs="auto">
+                              <h3 className="m-0">{tenderProduct.Name}</h3>
+                            </Col>
+                            <Col xs="auto">
+                              <Form.Label>Your Price</Form.Label>
+                              <Form.Control
+                                type="number"
+                                {...register(
+                                  `ProposalTenderProducts.${index}.Offer`,
+                                  {
+                                    valueAsNumber: true,
+                                  },
+                                )}
+                              />
+                            </Col>
+                          </Row>
+                          <Form.Control
+                            type="hidden"
+                            {...register(
+                              `ProposalTenderProducts.${index}.TenderProduct_ID`,
+                              {
+                                valueAsNumber: true
+                              }
+                            )}
+                            value={tenderProduct.ID}
+                          />
+                        </Card>
+                      </Form.Group>
+                    ))}
                     <Form.Group>
                       <Button disabled={loading} type="submit">
                         Register
