@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 
+import moment from 'moment';
+
 // import moment from 'moment';
+import { Op } from 'sequelize';
 import pool from 'utils/db';
 
 import authUserMiddleware from '../../../middlewares/authUserMiddleware';
@@ -9,8 +12,9 @@ import onlySuppliersMiddleware from '../../../middlewares/onlySuppliersMiddlewar
 import { withErrorHandler } from '../../../middlewares/withErrorHandler';
 import {
   Proposal,
-  // ProposalTenderProduct,
+  ProposalTenderProduct,
   ProposalTenderProducts,
+  Tender,
 } from '../../../sequelize/models';
 
 // const createProposal = async (
@@ -38,7 +42,8 @@ const handler = nextConnect()
   .use(onlySuppliersMiddleware())
   .post(
     withErrorHandler(async (req: NextApiRequest, res: NextApiResponse) => {
-      const { ProposalAttachments, ...restProps } = req.body;
+      const { ProposalAttachments, TenderProducts, ...restProps } = req.body;
+
       const proposal = await Proposal.create(restProps, {
         include: [
           {
@@ -58,6 +63,34 @@ const handler = nextConnect()
           return res.status(500).json({
             success: false,
             message: 'Something wrong when creating attachment',
+            err,
+          });
+        }
+      }
+
+      if (TenderProducts !== undefined && TenderProducts.length > 0) {
+        try {
+          const { dataValues: tender } = await Tender.findByPk(
+            restProps.Tender_ID,
+            {
+              where: { ClosingAt: { [Op.gt]: moment.utc() } },
+              attributes: { exclude: ['ID'] },
+            },
+          );
+
+          await ProposalTenderProduct.bulkCreate(
+            TenderProducts.map((TenderProduct: any) => ({
+              ClosingAt: tender.ClosingAt,
+              Offer: TenderProduct.Offer,
+              TenderProduct_ID: TenderProduct.TenderProduct_ID,
+              Proposal_ID: proposal.ID,
+              ...tender,
+            })),
+          );
+        } catch (err) {
+          return res.status(400).json({
+            success: false,
+            message: 'something wrong when creating ProposalTenderProduct',
             err,
           });
         }

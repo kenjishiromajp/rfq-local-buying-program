@@ -21,6 +21,13 @@ const storeTokens = (
     .catch((err: any) => {
       return err;
     });
+// User.update({
+//   Token: accessToken,
+//   RefreshToken: refreshToken,
+// }, { where: { ID: ID }})
+// .catch(err =>{
+//   console.log(err)
+// })
 
 const handler = nextConnect<NextApiRequest, NextApiResponse>({
   onNoMatch(req, res) {

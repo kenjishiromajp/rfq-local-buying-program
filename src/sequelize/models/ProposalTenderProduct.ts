@@ -42,6 +42,30 @@ export function ProposalTenderProductFactory(
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      ClosingAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      Description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      Title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      HeadingImage: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      State_ID: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      City_ID: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       freezeTableName: true,

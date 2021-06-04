@@ -188,19 +188,16 @@ const CreateProposalPage: FC<IProps> = ({
                               <Form.Label>Your Price</Form.Label>
                               <Form.Control
                                 type="number"
-                                {...register(
-                                  `ProposalTenderProducts.${index}.Offer`,
-                                  {
-                                    valueAsNumber: true,
-                                  },
-                                )}
+                                {...register(`TenderProducts.${index}.Offer`, {
+                                  valueAsNumber: true,
+                                })}
                               />
                             </Col>
                           </Row>
                           <Form.Control
                             type="hidden"
                             {...register(
-                              `ProposalTenderProducts.${index}.TenderProduct_ID`,
+                              `TenderProducts.${index}.TenderProduct_ID`,
                               {
                                 valueAsNumber: true,
                               },
