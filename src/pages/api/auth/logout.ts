@@ -14,11 +14,11 @@ const handler = nextConnect().post(
             WHERE ID=$1`,
         [id],
       )
-      .then((result: any) => {
-        if (result) res.status(200).json({ success: true });
+      .then(() => {
+        return res.status(200).json({ success: true });
       })
       .catch((err: any) => {
-        if (err) res.status(500).json(err);
+        return res.status(500).json(err);
       });
   },
 );
